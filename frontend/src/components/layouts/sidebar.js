@@ -70,7 +70,7 @@ export default function Sidebar() {
   const linkClasses = (active) => `
     flex items-center px-4 py-3 
     ${active 
-      ? 'bg-red-50 text-red-600 font-medium' 
+      ? 'bg-purple-50 text-purple-600 font-medium' 
       : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
     }
     ${collapsed ? 'justify-center' : ''}
@@ -82,7 +82,7 @@ export default function Sidebar() {
   const sidebarContent = (
     <>
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
-        <Link href="/" className={`${collapsed ? 'hidden' : ''} text-xl font-bold text-red-600`}>
+        <Link href="/" className={`${collapsed ? 'hidden' : ''} text-xl font-bold text-purple-600`}>
           TransExpress
         </Link>
         <button
@@ -170,7 +170,7 @@ export default function Sidebar() {
       <div className="fixed inset-0 bg-gray-900 bg-opacity-75" onClick={toggleMobileSidebar}></div>
       <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg overflow-y-auto">
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <Link href="/" className="text-xl font-bold text-red-600">
+          <Link href="/" className="text-xl font-bold text-purple-600">
             TransExpress
           </Link>
           <button
@@ -265,7 +265,7 @@ export default function Sidebar() {
   const mobileMenuButton = (
     <button
       onClick={toggleMobileSidebar}
-      className="md:hidden fixed bottom-20 right-4 z-40 p-3 rounded-full bg-red-600 text-white shadow-lg"
+      className="md:hidden fixed bottom-20 right-4 z-40 p-3 rounded-full bg-purple-600 text-white shadow-lg"
     >
       <Menu className="h-6 w-6" />
     </button>

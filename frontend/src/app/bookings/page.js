@@ -108,7 +108,7 @@ export default function BookingsPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader className="h-8 w-8 text-red-600 animate-spin" />
+        <Loader className="h-8 w-8 text-purple-600 animate-spin" />
         <span className="ml-2">Chargement des réservations...</span>
       </div>
     );
@@ -124,14 +124,14 @@ export default function BookingsPage() {
           </div>
           <Link
             href="/reservation"
-            className="mt-4 md:mt-0 bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg transition-colors inline-flex items-center"
+            className="mt-4 md:mt-0 bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg transition-colors inline-flex items-center"
           >
             Nouvelle réservation
           </Link>
         </div>
         
         {error && (
-          <div className="mb-6 bg-red-50 border-l-4 border-red-600 p-4 text-red-700">
+          <div className="mb-6 bg-purple-50 border-l-4 border-purple-600 p-4 text-purple-700">
             {error}
           </div>
         )}
@@ -149,7 +149,7 @@ export default function BookingsPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Rechercher par ville ou type de service..."
-                  className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+                  className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
                 />
               </div>
             </div>
@@ -161,7 +161,7 @@ export default function BookingsPage() {
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-red-500 focus:border-red-500"
+                  className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-purple-500 focus:border-purple-500"
                 >
                   <option value="all">Tous les statuts</option>
                   <option value="pending">En attente</option>
@@ -187,7 +187,7 @@ export default function BookingsPage() {
             </p>
             <Link
               href="/reservation"
-              className="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg transition-colors inline-flex items-center"
+              className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg transition-colors inline-flex items-center"
             >
               Effectuer une réservation
             </Link>
@@ -279,7 +279,7 @@ export default function BookingsPage() {
                       {['pending', 'confirmed'].includes(booking.status) && (
                         <button
                           onClick={() => handleCancelBooking(booking._id)}
-                          className="inline-flex items-center text-gray-600 hover:text-red-600 px-3 py-1 border border-gray-300 rounded-lg"
+                          className="inline-flex items-center text-gray-600 hover:text-purple-600 px-3 py-1 border border-gray-300 rounded-lg"
                         >
                           <XCircle className="h-4 w-4 mr-1" />
                           Annuler
@@ -299,7 +299,7 @@ export default function BookingsPage() {
                     {booking.paymentStatus === 'pending' && booking.status !== 'cancelled' && (
                       <Link
                         href={`/paiement?bookingId=${booking._id}`}
-                        className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+                        className="inline-flex items-center bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"
                       >
                         Payer maintenant
                       </Link>

@@ -20,11 +20,11 @@ export function Button({
   
   // Styles spécifiques aux variantes
   const variantStyles = {
-    primary: "bg-red-600 hover:bg-red-700 text-white",
+    primary: "bg-purple-600 hover:bg-purple-700 text-white",
     secondary: "bg-white border border-gray-300 hover:bg-gray-50 text-gray-700",
-    outline: "bg-transparent border border-red-600 text-red-600 hover:bg-red-50",
-    text: "bg-transparent text-red-600 hover:text-red-700 hover:underline",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
+    outline: "bg-transparent border border-purple-600 text-purple-600 hover:bg-purple-50",
+    text: "bg-transparent text-purple-600 hover:text-purple-700 hover:underline",
+    danger: "bg-purple-600 hover:bg-purple-700 text-white",
     success: "bg-green-600 hover:bg-green-700 text-white",
   };
   
@@ -69,11 +69,11 @@ export function ButtonLink({
   
   // Styles spécifiques aux variantes
   const variantStyles = {
-    primary: "bg-red-600 hover:bg-red-700 text-white",
+    primary: "bg-purple-600 hover:bg-purple-700 text-white",
     secondary: "bg-white border border-gray-300 hover:bg-gray-50 text-gray-700",
-    outline: "bg-transparent border border-red-600 text-red-600 hover:bg-red-50",
-    text: "bg-transparent text-red-600 hover:text-red-700 hover:underline",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
+    outline: "bg-transparent border border-purple-600 text-purple-600 hover:bg-purple-50",
+    text: "bg-transparent text-purple-600 hover:text-purple-700 hover:underline",
+    danger: "bg-purple-600 hover:bg-purple-700 text-white",
     success: "bg-green-600 hover:bg-green-700 text-white",
   };
   
@@ -113,11 +113,11 @@ export function IconButton({
   
   // Styles spécifiques aux variantes
   const variantStyles = {
-    primary: "bg-red-600 hover:bg-red-700 text-white",
+    primary: "bg-purple-600 hover:bg-purple-700 text-white",
     secondary: "bg-white border border-gray-300 hover:bg-gray-50 text-gray-700",
-    outline: "bg-transparent border border-red-600 text-red-600 hover:bg-red-50",
-    text: "bg-transparent text-red-600 hover:text-red-700",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
+    outline: "bg-transparent border border-purple-600 text-purple-600 hover:bg-purple-50",
+    text: "bg-transparent text-purple-600 hover:text-purple-700",
+    danger: "bg-purple-600 hover:bg-purple-700 text-white",
     success: "bg-green-600 hover:bg-green-700 text-white",
   };
   
@@ -157,11 +157,11 @@ export function IconLink({
   
   // Styles spécifiques aux variantes
   const variantStyles = {
-    primary: "bg-red-600 hover:bg-red-700 text-white",
+    primary: "bg-purple-600 hover:bg-purple-700 text-white",
     secondary: "bg-white border border-gray-300 hover:bg-gray-50 text-gray-700",
-    outline: "bg-transparent border border-red-600 text-red-600 hover:bg-red-50",
-    text: "bg-transparent text-red-600 hover:text-red-700",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
+    outline: "bg-transparent border border-purple-600 text-purple-600 hover:bg-purple-50",
+    text: "bg-transparent text-purple-600 hover:text-purple-700",
+    danger: "bg-purple-600 hover:bg-purple-700 text-white",
     success: "bg-green-600 hover:bg-green-700 text-white",
   };
   
@@ -195,7 +195,7 @@ export function NavigationButton({
 }) {
   // Styles pour le bouton avec direction
   const directionStyles = direction === 'next' 
-    ? "text-white bg-red-600 hover:bg-red-700" 
+    ? "text-white bg-purple-600 hover:bg-purple-700" 
     : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50";
   
   return (

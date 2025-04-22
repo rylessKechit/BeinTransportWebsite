@@ -18,7 +18,7 @@ export default function Footer() {
 
           {/* Liens rapides */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Liens rapides</h3>
+            <h3 className="text-lg font-semigbold mb-4">Liens rapides</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/" className="text-gray-400 hover:text-white transition-colors">
@@ -53,17 +53,17 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
-                <MapPin className="h-5 w-5 mr-2 text-red-500" />
+                <MapPin className="h-5 w-5 mr-2 text-purple-500" />
                 <span className="text-gray-400">123 Rue du Transport, 75000 Paris</span>
               </li>
               <li className="flex items-center">
-                <Phone className="h-5 w-5 mr-2 text-red-500" />
+                <Phone className="h-5 w-5 mr-2 text-purple-500" />
                 <a href="tel:0123456789" className="text-gray-400 hover:text-white transition-colors">
                   01 23 45 67 89
                 </a>
               </li>
               <li className="flex items-center">
-                <Mail className="h-5 w-5 mr-2 text-red-500" />
+                <Mail className="h-5 w-5 mr-2 text-purple-500" />
                 <a href="mailto:contact@transexpress.fr" className="text-gray-400 hover:text-white transition-colors">
                   contact@transexpress.fr
                 </a>
@@ -75,13 +75,13 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Suivez-nous</h3>
             <div className="flex space-x-4">
-              <a href="#" className="bg-gray-800 hover:bg-red-600 p-2 rounded-full transition-colors">
+              <a href="#" className="bg-gray-800 hover:bg-purple-600 p-2 rounded-full transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="bg-gray-800 hover:bg-red-600 p-2 rounded-full transition-colors">
+              <a href="#" className="bg-gray-800 hover:bg-purple-600 p-2 rounded-full transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="bg-gray-800 hover:bg-red-600 p-2 rounded-full transition-colors">
+              <a href="#" className="bg-gray-800 hover:bg-purple-600 p-2 rounded-full transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
             </div>
@@ -93,7 +93,7 @@ export default function Footer() {
                   placeholder="Votre email"
                   className="px-4 py-2 w-full bg-gray-800 text-white rounded-l-lg focus:outline-none"
                 />
-                <button className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-r-lg transition-colors">
+                <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-r-lg transition-colors">
                   OK
                 </button>
               </div>

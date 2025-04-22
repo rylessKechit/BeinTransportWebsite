@@ -133,7 +133,7 @@ export default function BookingCard({ booking, onCancel }) {
           <div className="flex space-x-2">
             <Link
               href={`/bookings/${booking._id}`}
-              className="text-red-600 hover:text-red-700 flex items-center"
+              className="text-purple-600 hover:text-purple-700 flex items-center"
             >
               <FileText className="h-4 w-4 mr-1" />
               Détails
@@ -165,7 +165,7 @@ export default function BookingCard({ booking, onCancel }) {
           <div className="mt-4 pt-4 border-t border-gray-100">
             <Link
               href={`/paiement?bookingId=${booking._id}`}
-              className="block w-full bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg text-center"
+              className="block w-full bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-lg text-center"
             >
               Payer maintenant
             </Link>

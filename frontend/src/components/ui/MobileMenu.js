@@ -84,7 +84,7 @@ export default function MobileMenu() {
         <div className="flex flex-col h-full overflow-y-auto">
           {/* En-tête du menu */}
           <div className="p-4 border-b border-gray-200">
-            <Link href="/" className="text-2xl font-bold text-red-600">
+            <Link href="/" className="text-2xl font-bold text-purple-600">
               TransExpress
             </Link>
           </div>
@@ -114,7 +114,7 @@ export default function MobileMenu() {
                     href={link.href}
                     className={`flex items-center p-3 rounded-lg ${
                       pathname === link.href
-                        ? 'bg-red-50 text-red-600 font-medium'
+                        ? 'bg-purple-50 text-purple-600 font-medium'
                         : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                     }`}
                     onClick={toggleMenu}
@@ -138,7 +138,7 @@ export default function MobileMenu() {
                       href={link.href}
                       className={`flex items-center p-3 rounded-lg ${
                         pathname === link.href
-                          ? 'bg-red-50 text-red-600 font-medium'
+                          ? 'bg-purple-50 text-purple-600 font-medium'
                           : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                       }`}
                       onClick={toggleMenu}
@@ -167,7 +167,7 @@ export default function MobileMenu() {
             <div className="p-4 border-b border-gray-200">
               <Link
                 href="/auth/login"
-                className="block w-full bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg text-center mb-3"
+                className="block w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg text-center mb-3"
                 onClick={toggleMenu}
               >
                 Connexion
@@ -187,11 +187,11 @@ export default function MobileMenu() {
             <p className="text-xs font-medium text-gray-500 uppercase mb-2">Contact</p>
             <div className="space-y-2 text-sm text-gray-600">
               <div className="flex items-start">
-                <Phone className="h-4 w-4 mr-2 mt-0.5 text-red-600" />
+                <Phone className="h-4 w-4 mr-2 mt-0.5 text-purple-600" />
                 <span>01 23 45 67 89</span>
               </div>
               <div className="flex items-start">
-                <MapPin className="h-4 w-4 mr-2 mt-0.5 text-red-600" />
+                <MapPin className="h-4 w-4 mr-2 mt-0.5 text-purple-600" />
                 <span>123 Rue du Transport, 75000 Paris</span>
               </div>
             </div>

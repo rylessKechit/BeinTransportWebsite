@@ -75,12 +75,12 @@ export default function PaymentPage() {
           
           {loading ? (
             <div className="bg-white rounded-xl shadow-md p-6 text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
               <p className="mt-4">Chargement des informations de paiement...</p>
             </div>
           ) : paymentError ? (
             <div className="bg-white rounded-xl shadow-md p-6">
-              <div className="flex items-center justify-center text-red-600 mb-4">
+              <div className="flex items-center justify-center text-purple-600 mb-4">
                 <AlertCircle className="h-12 w-12" />
               </div>
               <h2 className="text-xl font-semibold text-center mb-2">Erreur de paiement</h2>
@@ -88,7 +88,7 @@ export default function PaymentPage() {
               <div className="flex justify-center">
                 <button
                   onClick={() => router.push('/dashboard')}
-                  className="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg"
+                  className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg"
                 >
                   Retour au tableau de bord
                 </button>
@@ -106,7 +106,7 @@ export default function PaymentPage() {
               <div className="flex justify-center">
                 <button
                   onClick={() => router.push('/dashboard')}
-                  className="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg"
+                  className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg"
                 >
                   Voir mes réservations
                 </button>
@@ -175,7 +175,7 @@ export default function PaymentPage() {
                   </div>
                   
                   <button
-                    className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg transition-colors"
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-lg transition-colors"
                     onClick={() => {
                       // Simuler un paiement réussi pour le test
                       setLoading(true);

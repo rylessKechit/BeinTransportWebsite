@@ -18,7 +18,7 @@ export default function HomePage() {
             <p className="text-xl mb-8">Déménagement, livraison ou transport spécial, réservez votre véhicule adapté en quelques clics.</p>
             <Link 
               href="/reservation" 
-              className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors flex items-center w-fit"
+              className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors flex items-center w-fit"
             >
               Réserver maintenant
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -34,17 +34,17 @@ export default function HomePage() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <ServiceCard 
-              icon={<Truck className="h-12 w-12 text-red-600" />}
+              icon={<Truck className="h-12 w-12 text-purple-600" />}
               title="Transport à la demande"
               description="Choisissez parmi nos différentes tailles de véhicules (3m³ à 20m³) selon vos besoins."
             />
             <ServiceCard 
-              icon={<Home className="h-12 w-12 text-red-600" />}
+              icon={<Home className="h-12 w-12 text-purple-600" />}
               title="Déménagement"
               description="Solution complète pour votre déménagement avec l'aide de nos manutentionnaires qualifiés."
             />
             <ServiceCard 
-              icon={<Package className="h-12 w-12 text-red-600" />}
+              icon={<Package className="h-12 w-12 text-purple-600" />}
               title="Livraison express"
               description="Livraison urgente de colis ou marchandises dans toute la ville et ses environs."
             />
@@ -111,7 +111,7 @@ export default function HomePage() {
           <div className="text-center mt-12">
             <Link 
               href="/vehicules" 
-              className="text-red-600 hover:text-red-700 font-semibold flex items-center justify-center"
+              className="text-purple-600 hover:text-purple-700 font-semibold flex items-center justify-center"
             >
               Voir tous nos véhicules
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -121,13 +121,13 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-red-600 text-white">
+      <section className="py-20 bg-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">Prêt à réserver votre véhicule ?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">Simplifiez vos déplacements et transports avec notre service flexible et abordable.</p>
           <Link 
             href="/reservation" 
-            className="bg-white text-red-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors inline-flex items-center"
+            className="bg-white text-purple-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors inline-flex items-center"
           >
             Réserver maintenant
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -152,7 +152,7 @@ function ServiceCard({ icon, title, description }) {
 function StepCard({ number, title, description }) {
   return (
     <div className="text-center">
-      <div className="w-16 h-16 bg-red-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+      <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
         {number}
       </div>
       <h3 className="text-xl font-semibold mb-4">{title}</h3>
@@ -182,7 +182,7 @@ function VehicleCard({ name, capacity, description, price }) {
           <span className="font-semibold text-lg">{price}</span>
           <Link 
             href={`/reservation?vehicle=${capacity}`}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
           >
             Réserver
           </Link>

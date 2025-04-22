@@ -170,7 +170,7 @@ export default function BookingSummary({ booking, onCancel, showActions = true }
             {needsPayment && (
               <Link
                 href={`/paiement?bookingId=${booking._id}`}
-                className="block w-full bg-red-600 hover:bg-red-700 text-white py-3 text-center rounded-lg transition-colors"
+                className="block w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-center rounded-lg transition-colors"
               >
                 <div className="flex items-center justify-center">
                   <CreditCard className="h-5 w-5 mr-2" />

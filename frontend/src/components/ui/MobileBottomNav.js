@@ -17,7 +17,7 @@ export default function MobileBottomNav() {
       <div className="flex justify-around items-center">
         <Link 
           href="/" 
-          className={`flex flex-col items-center py-2 ${isActive('/') ? 'text-red-600' : 'text-gray-500'}`}
+          className={`flex flex-col items-center py-2 ${isActive('/') ? 'text-purple-600' : 'text-gray-500'}`}
         >
           <Home className="h-6 w-6" />
           <span className="text-xs mt-1">Accueil</span>
@@ -25,7 +25,7 @@ export default function MobileBottomNav() {
         
         <Link 
           href="/reservation" 
-          className={`flex flex-col items-center py-2 ${isActive('/reservation') ? 'text-red-600' : 'text-gray-500'}`}
+          className={`flex flex-col items-center py-2 ${isActive('/reservation') ? 'text-purple-600' : 'text-gray-500'}`}
         >
           <Package className="h-6 w-6" />
           <span className="text-xs mt-1">Réserver</span>
@@ -33,7 +33,7 @@ export default function MobileBottomNav() {
         
         <Link 
           href="/dashboard" 
-          className={`flex flex-col items-center py-2 ${isActive('/dashboard') ? 'text-red-600' : 'text-gray-500'}`}
+          className={`flex flex-col items-center py-2 ${isActive('/dashboard') ? 'text-purple-600' : 'text-gray-500'}`}
         >
           <User className="h-6 w-6" />
           <span className="text-xs mt-1">Compte</span>
@@ -41,7 +41,7 @@ export default function MobileBottomNav() {
         
         <Link 
           href="/contact" 
-          className={`flex flex-col items-center py-2 ${isActive('/contact') ? 'text-red-600' : 'text-gray-500'}`}
+          className={`flex flex-col items-center py-2 ${isActive('/contact') ? 'text-purple-600' : 'text-gray-500'}`}
         >
           <Phone className="h-6 w-6" />
           <span className="text-xs mt-1">Contact</span>

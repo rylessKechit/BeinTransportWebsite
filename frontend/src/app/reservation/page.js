@@ -216,7 +216,7 @@ export default function ReservationPage() {
   if (loading && vehicles.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600"></div>
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
       </div>
     );
   }
@@ -232,11 +232,11 @@ export default function ReservationPage() {
             {Object.values(STEPS).map((stepIndex) => (
               <div 
                 key={stepIndex}
-                className={`relative flex flex-col items-center ${stepIndex < step ? 'text-red-600' : stepIndex === step ? 'text-red-600' : 'text-gray-400'}`}
+                className={`relative flex flex-col items-center ${stepIndex < step ? 'text-purple-600' : stepIndex === step ? 'text-purple-600' : 'text-gray-400'}`}
               >
                 <div 
                   className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 
-                    ${stepIndex < step ? 'bg-red-600 text-white' : stepIndex === step ? 'border-2 border-red-600' : 'border-2 border-gray-300'}`}
+                    ${stepIndex < step ? 'bg-purple-600 text-white' : stepIndex === step ? 'border-2 border-purple-600' : 'border-2 border-gray-300'}`}
                 >
                   {stepIndex < step ? '✓' : stepIndex + 1}
                 </div>
@@ -253,7 +253,7 @@ export default function ReservationPage() {
                 {stepIndex < Object.values(STEPS).length - 1 && (
                   <div 
                     className={`absolute top-5 left-full w-full h-0.5 
-                    ${stepIndex < step ? 'bg-red-600' : 'bg-gray-300'}`}
+                    ${stepIndex < step ? 'bg-purple-600' : 'bg-gray-300'}`}
                     style={{ width: 'calc(100% - 2.5rem)', left: '2.5rem' }}
                   />
                 )}
@@ -264,7 +264,7 @@ export default function ReservationPage() {
         
         {/* Message d'erreur */}
         {error && (
-          <div className="max-w-3xl mx-auto mb-6 bg-red-50 border-l-4 border-red-600 p-4 text-red-700">
+          <div className="max-w-3xl mx-auto mb-6 bg-purple-50 border-l-4 border-purple-600 p-4 text-purple-700">
             {error}
           </div>
         )}
@@ -345,7 +345,7 @@ export default function ReservationPage() {
             {step < STEPS.SUMMARY ? (
               <button 
                 onClick={nextStep}
-                className="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg flex items-center"
+                className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg flex items-center"
               >
                 Suivant
                 <ChevronRight className="w-5 h-5 ml-2" />
@@ -354,7 +354,7 @@ export default function ReservationPage() {
               <button 
                 onClick={handleSubmit}
                 disabled={loading}
-                className="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg"
+                className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg"
               >
                 {loading ? 'Traitement en cours...' : 'Confirmer et payer'}
               </button>
@@ -369,9 +369,9 @@ export default function ReservationPage() {
 // Composants pour chaque étape du formulaire
 function ServiceTypeStep({ selected, onChange }) {
   const serviceTypes = [
-    { id: 'demenagement', name: 'Déménagement', icon: <Home className="w-12 h-12 text-red-600 mb-4" /> },
-    { id: 'livraison', name: 'Livraison de colis', icon: <Package className="w-12 h-12 text-red-600 mb-4" /> },
-    { id: 'transport', name: 'Transport divers', icon: <Truck className="w-12 h-12 text-red-600 mb-4" /> },
+    { id: 'demenagement', name: 'Déménagement', icon: <Home className="w-12 h-12 text-purple-600 mb-4" /> },
+    { id: 'livraison', name: 'Livraison de colis', icon: <Package className="w-12 h-12 text-purple-600 mb-4" /> },
+    { id: 'transport', name: 'Transport divers', icon: <Truck className="w-12 h-12 text-purple-600 mb-4" /> },
   ];
   
   return (
@@ -382,7 +382,7 @@ function ServiceTypeStep({ selected, onChange }) {
           <div 
             key={service.id}
             className={`border-2 rounded-xl p-6 text-center cursor-pointer transition-all hover:shadow-md
-              ${selected === service.id ? 'border-red-600 bg-red-50' : 'border-gray-200 hover:border-red-300'}`}
+              ${selected === service.id ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}`}
             onClick={() => onChange(service.id)}
           >
             {service.icon}
@@ -403,7 +403,7 @@ function VehicleStep({ vehicles, selected, onChange }) {
           <div 
             key={vehicle._id}
             className={`border-2 rounded-xl p-4 flex items-center cursor-pointer transition-all hover:shadow-md
-              ${selected === vehicle._id ? 'border-red-600 bg-red-50' : 'border-gray-200 hover:border-red-300'}`}
+              ${selected === vehicle._id ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}`}
             onClick={() => onChange(vehicle._id, vehicle)}
           >
             <div className="relative w-24 h-24 rounded-lg overflow-hidden flex-shrink-0 bg-gray-200 flex items-center justify-center">
@@ -449,7 +449,7 @@ function AddressesStep({ pickupAddress, deliveryAddress, onPickupChange, onDeliv
                 type="text"
                 value={pickupAddress.street}
                 onChange={(e) => onPickupChange('street', e.target.value)}
-                className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+                className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
                 placeholder="Rue et numéro"
                 required
               />
@@ -465,7 +465,7 @@ function AddressesStep({ pickupAddress, deliveryAddress, onPickupChange, onDeliv
                 type="text"
                 value={pickupAddress.city}
                 onChange={(e) => onPickupChange('city', e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
                 placeholder="Ville"
                 required
               />
@@ -478,7 +478,7 @@ function AddressesStep({ pickupAddress, deliveryAddress, onPickupChange, onDeliv
                 type="text"
                 value={pickupAddress.postalCode}
                 onChange={(e) => onPickupChange('postalCode', e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
                 placeholder="Code postal"
                 required
               />
@@ -502,7 +502,7 @@ function AddressesStep({ pickupAddress, deliveryAddress, onPickupChange, onDeliv
                 type="text"
                 value={deliveryAddress.street}
                 onChange={(e) => onDeliveryChange('street', e.target.value)}
-                className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+                className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
                 placeholder="Rue et numéro"
                 required
               />
@@ -518,7 +518,7 @@ function AddressesStep({ pickupAddress, deliveryAddress, onPickupChange, onDeliv
                 type="text"
                 value={deliveryAddress.city}
                 onChange={(e) => onDeliveryChange('city', e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
                 placeholder="Ville"
                 required
               />
@@ -531,7 +531,7 @@ function AddressesStep({ pickupAddress, deliveryAddress, onPickupChange, onDeliv
                 type="text"
                 value={deliveryAddress.postalCode}
                 onChange={(e) => onDeliveryChange('postalCode', e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
                 placeholder="Code postal"
                 required
               />
@@ -571,7 +571,7 @@ function DateTimeStep({ date, timeSlot, onDateChange, onTimeSlotChange }) {
             type="date"
             value={date}
             onChange={(e) => onDateChange(e.target.value)}
-            className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+            className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
             min={today}
             required
           />
@@ -587,7 +587,7 @@ function DateTimeStep({ date, timeSlot, onDateChange, onTimeSlotChange }) {
             <div 
               key={slot}
               className={`border-2 rounded-lg p-3 text-center cursor-pointer transition-all
-                ${timeSlot === slot ? 'border-red-600 bg-red-50' : 'border-gray-200 hover:border-red-300'}`}
+                ${timeSlot === slot ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}`}
               onClick={() => onTimeSlotChange(slot)}
             >
               <div className="flex items-center justify-center">
@@ -625,7 +625,7 @@ function HandlersStep({ handlers, vehicleCapacity, onChange }) {
         
         <div className="mx-8 flex flex-col items-center">
           <div className="flex items-center">
-            <Users className="h-6 w-6 text-red-600 mr-3" />
+            <Users className="h-6 w-6 text-purple-600 mr-3" />
             <span className="text-3xl font-bold">{handlers}</span>
           </div>
           <p className="text-gray-500 mt-2">Manutentionnaires</p>

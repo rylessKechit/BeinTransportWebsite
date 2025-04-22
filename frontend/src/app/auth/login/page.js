@@ -45,14 +45,14 @@ export default function LoginPage() {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Ou{' '}
-            <Link href="/auth/register" className="font-medium text-red-600 hover:text-red-500">
+            <Link href="/auth/register" className="font-medium text-purple-600 hover:text-purple-500">
               créez un compte si vous n'en avez pas
             </Link>
           </p>
         </div>
         
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-600 p-4 text-red-700">
+          <div className="bg-purple-50 border-l-4 border-purple-600 p-4 text-purple-700">
             {error}
           </div>
         )}
@@ -75,7 +75,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none rounded-t-md relative block w-full px-10 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10"
+                  className="appearance-none rounded-t-md relative block w-full px-10 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10"
                   placeholder="Adresse email"
                 />
               </div>
@@ -96,7 +96,7 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none rounded-b-md relative block w-full px-10 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10"
+                  className="appearance-none rounded-b-md relative block w-full px-10 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10"
                   placeholder="Mot de passe"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -122,7 +122,7 @@ export default function LoginPage() {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
+                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
               />
               <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                 Se souvenir de moi
@@ -130,7 +130,7 @@ export default function LoginPage() {
             </div>
 
             <div className="text-sm">
-              <a href="#" className="font-medium text-red-600 hover:text-red-500">
+              <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
                 Mot de passe oublié ?
               </a>
             </div>
@@ -140,7 +140,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
             >
               {loading ? 'Connexion en cours...' : 'Se connecter'}
             </button>

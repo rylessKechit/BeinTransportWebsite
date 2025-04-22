@@ -196,12 +196,12 @@ export default function BookingForm({ onComplete }) {
             <div 
               key={stepIndex}
               className={`relative flex flex-col items-center ${
-                stepIndex < step ? 'text-red-600' : stepIndex === step ? 'text-red-600' : 'text-gray-400'
+                stepIndex < step ? 'text-purple-600' : stepIndex === step ? 'text-purple-600' : 'text-gray-400'
               }`}
             >
               <div 
                 className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 
-                  ${stepIndex < step ? 'bg-red-600 text-white' : stepIndex === step ? 'border-2 border-red-600' : 'border-2 border-gray-300'}`}
+                  ${stepIndex < step ? 'bg-purple-600 text-white' : stepIndex === step ? 'border-2 border-purple-600' : 'border-2 border-gray-300'}`}
               >
                 {stepIndex < step ? '✓' : stepIndex + 1}
               </div>
@@ -218,7 +218,7 @@ export default function BookingForm({ onComplete }) {
               {stepIndex < Object.values(STEPS).length - 1 && (
                 <div 
                   className={`absolute top-4 left-full w-full h-0.5 
-                  ${stepIndex < step ? 'bg-red-600' : 'bg-gray-300'}`}
+                  ${stepIndex < step ? 'bg-purple-600' : 'bg-gray-300'}`}
                   style={{ width: 'calc(100% - 2rem)', left: '2rem' }}
                 />
               )}
@@ -229,7 +229,7 @@ export default function BookingForm({ onComplete }) {
       
       {/* Message d'erreur */}
       {error && (
-        <div className="mb-6 bg-red-50 border-l-4 border-red-600 p-4 text-red-700 flex items-start">
+        <div className="mb-6 bg-purple-50 border-l-4 border-purple-600 p-4 text-purple-700 flex items-start">
           <AlertCircle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
           <p>{error}</p>
         </div>
@@ -244,7 +244,7 @@ export default function BookingForm({ onComplete }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <label 
                 className={`border-2 rounded-lg p-6 text-center cursor-pointer transition-all
-                  ${watchBookingType === 'demenagement' ? 'border-red-600 bg-red-50' : 'border-gray-200 hover:border-red-300'}`}
+                  ${watchBookingType === 'demenagement' ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}`}
               >
                 <input 
                   type="radio" 
@@ -252,13 +252,13 @@ export default function BookingForm({ onComplete }) {
                   className="sr-only" 
                   {...register('bookingType')}
                 />
-                <Home className="h-12 w-12 text-red-600 mx-auto mb-4" />
+                <Home className="h-12 w-12 text-purple-600 mx-auto mb-4" />
                 <h3 className="font-medium">Déménagement</h3>
               </label>
               
               <label 
                 className={`border-2 rounded-lg p-6 text-center cursor-pointer transition-all
-                  ${watchBookingType === 'livraison' ? 'border-red-600 bg-red-50' : 'border-gray-200 hover:border-red-300'}`}
+                  ${watchBookingType === 'livraison' ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}`}
               >
                 <input 
                   type="radio" 
@@ -266,13 +266,13 @@ export default function BookingForm({ onComplete }) {
                   className="sr-only" 
                   {...register('bookingType')}
                 />
-                <Package className="h-12 w-12 text-red-600 mx-auto mb-4" />
+                <Package className="h-12 w-12 text-purple-600 mx-auto mb-4" />
                 <h3 className="font-medium">Livraison de colis</h3>
               </label>
               
               <label 
                 className={`border-2 rounded-lg p-6 text-center cursor-pointer transition-all
-                  ${watchBookingType === 'transport' ? 'border-red-600 bg-red-50' : 'border-gray-200 hover:border-red-300'}`}
+                  ${watchBookingType === 'transport' ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}`}
               >
                 <input 
                   type="radio" 
@@ -280,7 +280,7 @@ export default function BookingForm({ onComplete }) {
                   className="sr-only" 
                   {...register('bookingType')}
                 />
-                <Truck className="h-12 w-12 text-red-600 mx-auto mb-4" />
+                <Truck className="h-12 w-12 text-purple-600 mx-auto mb-4" />
                 <h3 className="font-medium">Transport divers</h3>
               </label>
             </div>
@@ -294,7 +294,7 @@ export default function BookingForm({ onComplete }) {
             
             {loading ? (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600 mx-auto"></div>
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600 mx-auto"></div>
                 <p className="mt-4 text-gray-600">Chargement des véhicules...</p>
               </div>
             ) : (
@@ -303,7 +303,7 @@ export default function BookingForm({ onComplete }) {
                   <label 
                     key={vehicle._id}
                     className={`border-2 rounded-lg p-4 flex items-center cursor-pointer transition-all
-                      ${watchVehicleId === vehicle._id ? 'border-red-600 bg-red-50' : 'border-gray-200 hover:border-red-300'}`}
+                      ${watchVehicleId === vehicle._id ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}`}
                   >
                     <input 
                       type="radio" 
@@ -361,12 +361,12 @@ export default function BookingForm({ onComplete }) {
                     </div>
                     <input
                       type="text"
-                      className={`block w-full pl-10 pr-4 py-2.5 border ${errors.pickupAddress?.street ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-red-500 focus:border-red-500`}
+                      className={`block w-full pl-10 pr-4 py-2.5 border ${errors.pickupAddress?.street ? 'border-purple-500' : 'border-gray-300'} rounded-lg focus:ring-purple-500 focus:border-purple-500`}
                       placeholder="Rue et numéro"
                       {...register('pickupAddress.street', { required: true })}
                     />
                   </div>
-                  {errors.pickupAddress?.street && <p className="mt-1 text-sm text-red-600">Ce champ est requis</p>}
+                  {errors.pickupAddress?.street && <p className="mt-1 text-sm text-purple-600">Ce champ est requis</p>}
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -374,21 +374,21 @@ export default function BookingForm({ onComplete }) {
                     <label className="block text-sm text-gray-700 mb-1">Ville</label>
                     <input
                       type="text"
-                      className={`block w-full px-4 py-2.5 border ${errors.pickupAddress?.city ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-red-500 focus:border-red-500`}
+                      className={`block w-full px-4 py-2.5 border ${errors.pickupAddress?.city ? 'border-purple-500' : 'border-gray-300'} rounded-lg focus:ring-purple-500 focus:border-purple-500`}
                       placeholder="Ville"
                       {...register('pickupAddress.city', { required: true })}
                     />
-                    {errors.pickupAddress?.city && <p className="mt-1 text-sm text-red-600">Ce champ est requis</p>}
+                    {errors.pickupAddress?.city && <p className="mt-1 text-sm text-purple-600">Ce champ est requis</p>}
                   </div>
                   <div>
                     <label className="block text-sm text-gray-700 mb-1">Code postal</label>
                     <input
                       type="text"
-                      className={`block w-full px-4 py-2.5 border ${errors.pickupAddress?.postalCode ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-red-500 focus:border-red-500`}
+                      className={`block w-full px-4 py-2.5 border ${errors.pickupAddress?.postalCode ? 'border-purple-500' : 'border-gray-300'} rounded-lg focus:ring-purple-500 focus:border-purple-500`}
                       placeholder="Code postal"
                       {...register('pickupAddress.postalCode', { required: true })}
                     />
-                    {errors.pickupAddress?.postalCode && <p className="mt-1 text-sm text-red-600">Ce champ est requis</p>}
+                    {errors.pickupAddress?.postalCode && <p className="mt-1 text-sm text-purple-600">Ce champ est requis</p>}
                   </div>
                 </div>
               </div>
@@ -405,12 +405,12 @@ export default function BookingForm({ onComplete }) {
                     </div>
                     <input
                       type="text"
-                      className={`block w-full pl-10 pr-4 py-2.5 border ${errors.deliveryAddress?.street ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-red-500 focus:border-red-500`}
+                      className={`block w-full pl-10 pr-4 py-2.5 border ${errors.deliveryAddress?.street ? 'border-purple-500' : 'border-gray-300'} rounded-lg focus:ring-purple-500 focus:border-purple-500`}
                       placeholder="Rue et numéro"
                       {...register('deliveryAddress.street', { required: true })}
                     />
                   </div>
-                  {errors.deliveryAddress?.street && <p className="mt-1 text-sm text-red-600">Ce champ est requis</p>}
+                  {errors.deliveryAddress?.street && <p className="mt-1 text-sm text-purple-600">Ce champ est requis</p>}
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -418,21 +418,21 @@ export default function BookingForm({ onComplete }) {
                     <label className="block text-sm text-gray-700 mb-1">Ville</label>
                     <input
                       type="text"
-                      className={`block w-full px-4 py-2.5 border ${errors.deliveryAddress?.city ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-red-500 focus:border-red-500`}
+                      className={`block w-full px-4 py-2.5 border ${errors.deliveryAddress?.city ? 'border-purple-500' : 'border-gray-300'} rounded-lg focus:ring-purple-500 focus:border-purple-500`}
                       placeholder="Ville"
                       {...register('deliveryAddress.city', { required: true })}
                     />
-                    {errors.deliveryAddress?.city && <p className="mt-1 text-sm text-red-600">Ce champ est requis</p>}
+                    {errors.deliveryAddress?.city && <p className="mt-1 text-sm text-purple-600">Ce champ est requis</p>}
                   </div>
                   <div>
                     <label className="block text-sm text-gray-700 mb-1">Code postal</label>
                     <input
                       type="text"
-                      className={`block w-full px-4 py-2.5 border ${errors.deliveryAddress?.postalCode ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-red-500 focus:border-red-500`}
+                      className={`block w-full px-4 py-2.5 border ${errors.deliveryAddress?.postalCode ? 'border-purple-500' : 'border-gray-300'} rounded-lg focus:ring-purple-500 focus:border-purple-500`}
                       placeholder="Code postal"
                       {...register('deliveryAddress.postalCode', { required: true })}
                     />
-                    {errors.deliveryAddress?.postalCode && <p className="mt-1 text-sm text-red-600">Ce champ est requis</p>}
+                    {errors.deliveryAddress?.postalCode && <p className="mt-1 text-sm text-purple-600">Ce champ est requis</p>}
                   </div>
                 </div>
               </div>
@@ -453,12 +453,12 @@ export default function BookingForm({ onComplete }) {
                 </div>
                 <input
                   type="date"
-                  className={`block w-full pl-10 pr-4 py-2.5 border ${errors.date ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-red-500 focus:border-red-500`}
+                  className={`block w-full pl-10 pr-4 py-2.5 border ${errors.date ? 'border-purple-500' : 'border-gray-300'} rounded-lg focus:ring-purple-500 focus:border-purple-500`}
                   min={getFormattedToday()}
                   {...register('date', { required: true })}
                 />
               </div>
-              {errors.date && <p className="mt-1 text-sm text-red-600">Ce champ est requis</p>}
+              {errors.date && <p className="mt-1 text-sm text-purple-600">Ce champ est requis</p>}
             </div>
             
             <div>
@@ -468,7 +468,7 @@ export default function BookingForm({ onComplete }) {
                   <label 
                     key={slot}
                     className={`border-2 rounded-lg p-3 text-center cursor-pointer transition-all
-                      ${watchTimeSlot === slot ? 'border-red-600 bg-red-50' : 'border-gray-200 hover:border-red-300'}`}
+                      ${watchTimeSlot === slot ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}`}
                   >
                     <input 
                       type="radio" 
@@ -483,7 +483,7 @@ export default function BookingForm({ onComplete }) {
                   </label>
                 ))}
               </div>
-              {errors.timeSlot && <p className="mt-1 text-sm text-red-600">Ce champ est requis</p>}
+              {errors.timeSlot && <p className="mt-1 text-sm text-purple-600">Ce champ est requis</p>}
             </div>
           </div>
         )}
@@ -514,7 +514,7 @@ export default function BookingForm({ onComplete }) {
                 
                 <div className="mx-8 flex flex-col items-center">
                   <div className="flex items-center">
-                    <Users className="h-6 w-6 text-red-600 mr-3" />
+                    <Users className="h-6 w-6 text-purple-600 mr-3" />
                     <span className="text-3xl font-bold">{watchHandlers}</span>
                   </div>
                   <p className="text-gray-500 mt-2">Manutentionnaires</p>
@@ -536,7 +536,7 @@ export default function BookingForm({ onComplete }) {
             <div>
               <h3 className="font-medium mb-3">Notes supplémentaires</h3>
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
                 rows="4"
                 placeholder="Informations complémentaires pour votre réservation (accès, stationnement, etc.)"
                 {...register('notes')}
@@ -620,7 +620,7 @@ export default function BookingForm({ onComplete }) {
             <button
                 type="button"
                 onClick={nextStep}
-                className="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg flex items-center"
+                className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg flex items-center"
             >
                 Suivant
                 <ChevronRight className="h-5 w-5 ml-1" />
@@ -629,7 +629,7 @@ export default function BookingForm({ onComplete }) {
             <button
                 type="submit"
                 disabled={loading}
-                className="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg"
+                className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg"
             >
                 {loading ? 'Traitement en cours...' : 'Confirmer et payer'}
             </button>

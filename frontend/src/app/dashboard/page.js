@@ -84,7 +84,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader className="h-8 w-8 text-red-600 animate-spin" />
+        <Loader className="h-8 w-8 text-purple-600 animate-spin" />
         <span className="ml-2">Chargement...</span>
       </div>
     );
@@ -101,7 +101,7 @@ export default function DashboardPage() {
         <p className="text-gray-600 mb-8">Bienvenue, {user?.firstName}! Gérez vos réservations ici.</p>
         
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-600 p-4 mb-6 text-red-700">
+          <div className="bg-purple-50 border-l-4 border-purple-600 p-4 mb-6 text-purple-700">
             <div className="flex">
               <AlertTriangle className="h-5 w-5 mr-2" />
               <span>{error}</span>
@@ -115,7 +115,7 @@ export default function DashboardPage() {
               <button
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === 'upcoming'
-                    ? 'text-red-600 border-b-2 border-red-600'
+                    ? 'text-purple-600 border-b-2 border-purple-600'
                     : 'text-gray-500 hover:text-gray-700'
                 }`}
                 onClick={() => setActiveTab('upcoming')}
@@ -125,7 +125,7 @@ export default function DashboardPage() {
               <button
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === 'past'
-                    ? 'text-red-600 border-b-2 border-red-600'
+                    ? 'text-purple-600 border-b-2 border-purple-600'
                     : 'text-gray-500 hover:text-gray-700'
                 }`}
                 onClick={() => setActiveTab('past')}
@@ -135,7 +135,7 @@ export default function DashboardPage() {
               <button
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === 'cancelled'
-                    ? 'text-red-600 border-b-2 border-red-600'
+                    ? 'text-purple-600 border-b-2 border-purple-600'
                     : 'text-gray-500 hover:text-gray-700'
                 }`}
                 onClick={() => setActiveTab('cancelled')}
@@ -159,7 +159,7 @@ export default function DashboardPage() {
                 </p>
                 <Link
                   href="/reservation"
-                  className="inline-flex items-center text-red-600 hover:text-red-700"
+                  className="inline-flex items-center text-purple-600 hover:text-purple-700"
                 >
                   Faire une réservation
                   <ChevronRight className="h-4 w-4 ml-1" />
@@ -183,7 +183,7 @@ export default function DashboardPage() {
         <div className="flex justify-center">
           <Link
             href="/reservation"
-            className="bg-red-600 hover:bg-red-700 text-white py-3 px-8 rounded-lg transition-colors"
+            className="bg-purple-600 hover:bg-purple-700 text-white py-3 px-8 rounded-lg transition-colors"
           >
             Nouvelle réservation
           </Link>
@@ -316,7 +316,7 @@ function BookingCard({ booking, onCancel, isPast }) {
         <div className="flex justify-between items-center">
           <Link
             href={`/bookings/${booking._id}`}
-            className="text-red-600 hover:text-red-700 flex items-center"
+            className="text-purple-600 hover:text-purple-700 flex items-center"
           >
             <FileText className="h-4 w-4 mr-1" />
             Détails

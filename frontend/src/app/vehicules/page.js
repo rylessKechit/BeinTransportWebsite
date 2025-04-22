@@ -36,7 +36,7 @@ export default function VehiculesPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader className="h-8 w-8 text-red-600 animate-spin" />
+        <Loader className="h-8 w-8 text-purple-600 animate-spin" />
         <span className="ml-2">Chargement des véhicules...</span>
       </div>
     );
@@ -54,7 +54,7 @@ export default function VehiculesPage() {
         </div>
 
         {error && (
-          <div className="max-w-3xl mx-auto mb-6 bg-red-50 border-l-4 border-red-600 p-4 text-red-700">
+          <div className="max-w-3xl mx-auto mb-6 bg-purple-50 border-l-4 border-purple-600 p-4 text-purple-700">
             {error}
           </div>
         )}
@@ -69,7 +69,7 @@ export default function VehiculesPage() {
           <h2 className="text-2xl font-bold mb-6">Prêt à réserver votre véhicule ?</h2>
           <Link
             href="/reservation"
-            className="bg-red-600 hover:bg-red-700 text-white py-3 px-8 rounded-lg transition-colors inline-flex items-center"
+            className="bg-purple-600 hover:bg-purple-700 text-white py-3 px-8 rounded-lg transition-colors inline-flex items-center"
           >
             Réserver maintenant
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -143,7 +143,7 @@ function VehicleCard({ vehicle }) {
         
         <Link
           href={`/reservation?vehicleId=${vehicle._id}`}
-          className="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg mt-4 inline-block text-center"
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg mt-4 inline-block text-center"
         >
           Réserver
         </Link>

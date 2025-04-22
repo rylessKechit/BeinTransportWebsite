@@ -29,14 +29,14 @@ export const Input = forwardRef(({
         <input
           ref={ref}
           className={`block w-full ${icon ? 'pl-10' : 'pl-4'} pr-4 py-2.5 border ${
-            error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-red-500 focus:border-red-500'
+            error ? 'border-purple-500 focus:ring-purple-500 focus:border-purple-500' : 'border-gray-300 focus:ring-purple-500 focus:border-purple-500'
           } rounded-lg`}
           {...props}
         />
       </div>
       
       {error && (
-        <p className="mt-1 text-sm text-red-600 flex items-center">
+        <p className="mt-1 text-sm text-purple-600 flex items-center">
           <AlertCircle className="h-4 w-4 mr-1" />
           {error}
         </p>
@@ -73,7 +73,7 @@ export const PasswordInput = forwardRef(({
           ref={ref}
           type={showPassword ? 'text' : 'password'}
           className={`block w-full pl-4 pr-10 py-2.5 border ${
-            error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-red-500 focus:border-red-500'
+            error ? 'border-purple-500 focus:ring-purple-500 focus:border-purple-500' : 'border-gray-300 focus:ring-purple-500 focus:border-purple-500'
           } rounded-lg`}
           {...props}
         />
@@ -88,7 +88,7 @@ export const PasswordInput = forwardRef(({
       </div>
       
       {error && (
-        <p className="mt-1 text-sm text-red-600 flex items-center">
+        <p className="mt-1 text-sm text-purple-600 flex items-center">
           <AlertCircle className="h-4 w-4 mr-1" />
           {error}
         </p>
@@ -119,7 +119,7 @@ export const Select = forwardRef(({
       <select
         ref={ref}
         className={`block w-full px-4 py-2.5 border ${
-          error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-red-500 focus:border-red-500'
+          error ? 'border-purple-500 focus:ring-purple-500 focus:border-purple-500' : 'border-gray-300 focus:ring-purple-500 focus:border-purple-500'
         } rounded-lg bg-white ${className}`}
         {...props}
       >
@@ -137,7 +137,7 @@ export const Select = forwardRef(({
       </select>
       
       {error && (
-        <p className="mt-1 text-sm text-red-600 flex items-center">
+        <p className="mt-1 text-sm text-purple-600 flex items-center">
           <AlertCircle className="h-4 w-4 mr-1" />
           {error}
         </p>
@@ -166,13 +166,13 @@ export const Textarea = forwardRef(({
       <textarea
         ref={ref}
         className={`block w-full px-4 py-2.5 border ${
-          error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-red-500 focus:border-red-500'
+          error ? 'border-purple-500 focus:ring-purple-500 focus:border-purple-500' : 'border-gray-300 focus:ring-purple-500 focus:border-purple-500'
         } rounded-lg resize-y ${className}`}
         {...props}
       />
       
       {error && (
-        <p className="mt-1 text-sm text-red-600 flex items-center">
+        <p className="mt-1 text-sm text-purple-600 flex items-center">
           <AlertCircle className="h-4 w-4 mr-1" />
           {error}
         </p>
@@ -196,7 +196,7 @@ export const Checkbox = forwardRef(({
         <input
           type="checkbox"
           ref={ref}
-          className={`h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-500 ${className}`}
+          className={`h-4 w-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500 ${className}`}
           {...props}
         />
         
@@ -208,7 +208,7 @@ export const Checkbox = forwardRef(({
       </div>
       
       {error && (
-        <p className="mt-1 text-sm text-red-600 flex items-center">
+        <p className="mt-1 text-sm text-purple-600 flex items-center">
           <AlertCircle className="h-4 w-4 mr-1" />
           {error}
         </p>
@@ -232,7 +232,7 @@ export const Radio = forwardRef(({
         <input
           type="radio"
           ref={ref}
-          className={`h-4 w-4 text-red-600 border-gray-300 focus:ring-red-500 ${className}`}
+          className={`h-4 w-4 text-purple-600 border-gray-300 focus:ring-purple-500 ${className}`}
           {...props}
         />
         
@@ -244,7 +244,7 @@ export const Radio = forwardRef(({
       </div>
       
       {error && (
-        <p className="mt-1 text-sm text-red-600 flex items-center">
+        <p className="mt-1 text-sm text-purple-600 flex items-center">
           <AlertCircle className="h-4 w-4 mr-1" />
           {error}
         </p>
@@ -284,7 +284,7 @@ export const RadioGroup = forwardRef(({
               value={option.value}
               checked={value === option.value}
               onChange={onChange}
-              className="h-4 w-4 text-red-600 border-gray-300 focus:ring-red-500"
+              className="h-4 w-4 text-purple-600 border-gray-300 focus:ring-purple-500"
             />
             <label htmlFor={`${name}-${option.value}`} className="ml-2 block text-sm text-gray-700">
               {option.label}
@@ -294,7 +294,7 @@ export const RadioGroup = forwardRef(({
       </div>
       
       {error && (
-        <p className="mt-1 text-sm text-red-600 flex items-center">
+        <p className="mt-1 text-sm text-purple-600 flex items-center">
           <AlertCircle className="h-4 w-4 mr-1" />
           {error}
         </p>
@@ -321,7 +321,7 @@ export const RadioCard = forwardRef(({
   return (
     <label
       className={`block border-2 rounded-lg p-4 cursor-pointer transition-all
-        ${checked ? 'border-red-600 bg-red-50' : 'border-gray-200 hover:border-red-300'} ${className}`}
+        ${checked ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'} ${className}`}
       {...props}
     >
       <input
@@ -335,7 +335,7 @@ export const RadioCard = forwardRef(({
       />
       
       <div className="flex items-start">
-        {icon && <div className="mr-4 text-red-600">{icon}</div>}
+        {icon && <div className="mr-4 text-purple-600">{icon}</div>}
         
         <div className="flex-grow">
           {title && <h3 className="font-medium mb-1">{title}</h3>}
@@ -343,7 +343,7 @@ export const RadioCard = forwardRef(({
         </div>
         
         <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 ml-4 flex items-center justify-center ${
-          checked ? 'border-red-600 bg-red-600' : 'border-gray-300'
+          checked ? 'border-purple-600 bg-purple-600' : 'border-gray-300'
         }`}>
           {checked && <Check className="h-4 w-4 text-white" />}
         </div>
@@ -384,7 +384,7 @@ export const SearchInput = forwardRef(({
         type="search"
         name="search"
         placeholder={placeholder}
-        className="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+        className="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
         {...props}
       />
       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -394,7 +394,7 @@ export const SearchInput = forwardRef(({
       </div>
       <button
         type="submit"
-        className="absolute inset-y-0 right-0 px-3 flex items-center bg-red-600 text-white rounded-r-lg"
+        className="absolute inset-y-0 right-0 px-3 flex items-center bg-purple-600 text-white rounded-r-lg"
       >
         Rechercher
       </button>

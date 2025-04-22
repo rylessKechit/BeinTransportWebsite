@@ -22,7 +22,7 @@ export default function StatsCard({ title, value, type, change }) {
   // Déterminer la couleur du changement
   const getChangeColor = () => {
     if (!change) return 'text-gray-500';
-    return change > 0 ? 'text-green-500' : 'text-red-500';
+    return change > 0 ? 'text-green-500' : 'text-purple-500';
   };
 
   // Formater le changement avec + ou -
@@ -61,7 +61,7 @@ export function UpcomingBookingsCard({ bookings = [] }) {
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-medium text-gray-700">Prochaines réservations</h3>
         <div className="p-2 rounded-full bg-gray-50">
-          <Calendar className="h-6 w-6 text-red-500" />
+          <Calendar className="h-6 w-6 text-purple-500" />
         </div>
       </div>
       
@@ -93,7 +93,7 @@ export function UpcomingBookingsCard({ bookings = [] }) {
           
           {bookings.length > 3 && (
             <div className="text-center pt-2">
-              <Link href="/bookings" className="text-red-600 hover:text-red-700 text-sm font-medium">
+              <Link href="/bookings" className="text-purple-600 hover:text-purple-700 text-sm font-medium">
                 Voir toutes les réservations
               </Link>
             </div>

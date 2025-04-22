@@ -71,7 +71,7 @@ export function LinkCard({ href, title, description, icon, className = '', exter
     <Link href={href} className={`block ${className}`} {...props}>
       <Card className="hover:shadow-lg transition-shadow h-full">
         <CardBody className="flex items-start">
-          {icon && <div className="mr-4 text-red-600">{icon}</div>}
+          {icon && <div className="mr-4 text-purple-600">{icon}</div>}
           <div className="flex-grow">
             <h3 className="font-medium text-gray-900 mb-1">{title}</h3>
             {description && <p className="text-gray-600 text-sm">{description}</p>}
@@ -100,7 +100,7 @@ export function ServiceCard({ title, description, icon, imageUrl, actionText = '
       )}
       <CardBody className="flex-grow">
         <div className="flex items-center mb-4">
-          {icon && <div className="mr-3 text-red-600">{icon}</div>}
+          {icon && <div className="mr-3 text-purple-600">{icon}</div>}
           <h3 className="font-semibold text-lg">{title}</h3>
         </div>
         <p className="text-gray-600 mb-6">{description}</p>
@@ -108,7 +108,7 @@ export function ServiceCard({ title, description, icon, imageUrl, actionText = '
       <CardFooter className="pt-0 pb-6 px-6 border-0">
         <Link
           href={actionUrl}
-          className="inline-flex items-center text-red-600 hover:text-red-700 font-medium"
+          className="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium"
         >
           {actionText}
           <ChevronRight className="h-4 w-4 ml-1" />
@@ -122,11 +122,11 @@ export function ServiceCard({ title, description, icon, imageUrl, actionText = '
 export function PricingCard({ title, price, features = [], popular = false, actionText = 'Sélectionner', actionUrl = '#', className = '', ...props }) {
   return (
     <Card 
-      className={`h-full flex flex-col ${popular ? 'border-2 border-red-600 shadow-lg' : ''} ${className}`}
+      className={`h-full flex flex-col ${popular ? 'border-2 border-purple-600 shadow-lg' : ''} ${className}`}
       {...props}
     >
       {popular && (
-        <div className="bg-red-600 text-white text-center py-1 text-sm font-medium">
+        <div className="bg-purple-600 text-white text-center py-1 text-sm font-medium">
           Recommandé
         </div>
       )}
@@ -156,7 +156,7 @@ export function PricingCard({ title, price, features = [], popular = false, acti
           href={actionUrl}
           className={`inline-block w-full py-2 px-4 rounded-lg font-medium ${
             popular 
-              ? 'bg-red-600 hover:bg-red-700 text-white' 
+              ? 'bg-purple-600 hover:bg-purple-700 text-white' 
               : 'bg-white border border-gray-300 hover:bg-gray-50 text-gray-700'
           }`}
         >
@@ -188,7 +188,7 @@ export function StatsCard({ title, value, description, icon, change, changeDirec
           </div>
           
           {change && (
-            <div className={`text-sm ${changeDirection === 'up' ? 'text-green-500' : 'text-red-500'} flex items-center`}>
+            <div className={`text-sm ${changeDirection === 'up' ? 'text-green-500' : 'text-purple-500'} flex items-center`}>
               <svg 
                 className="h-4 w-4 mr-1" 
                 fill="none" 
@@ -214,19 +214,19 @@ export function StatsCard({ title, value, description, icon, change, changeDirec
 export function InfoCard({ title, content, icon, variant = 'default', className = '', ...props }) {
   const variantStyles = {
     default: 'bg-gray-50',
-    primary: 'bg-red-50',
+    primary: 'bg-purple-50',
     success: 'bg-green-50',
     warning: 'bg-yellow-50',
-    danger: 'bg-red-50',
+    danger: 'bg-purple-50',
     info: 'bg-blue-50'
   };
   
   const variantIconColors = {
     default: 'text-gray-500',
-    primary: 'text-red-600',
+    primary: 'text-purple-600',
     success: 'text-green-600',
     warning: 'text-yellow-600',
-    danger: 'text-red-600',
+    danger: 'text-purple-600',
     info: 'text-blue-600'
   };
   
@@ -274,7 +274,7 @@ export function ContactCard({ name, role, imageUrl, email, phone, className = ''
             {email && (
               <a 
                 href={`mailto:${email}`} 
-                className="flex items-center text-gray-700 hover:text-red-600"
+                className="flex items-center text-gray-700 hover:text-purple-600"
               >
                 <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -286,7 +286,7 @@ export function ContactCard({ name, role, imageUrl, email, phone, className = ''
             {phone && (
               <a 
                 href={`tel:${phone.replace(/\s/g, '')}`} 
-                className="flex items-center text-gray-700 hover:text-red-600"
+                className="flex items-center text-gray-700 hover:text-purple-600"
               >
                 <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -306,7 +306,7 @@ export function TestimonialCard({ quote, author, position, avatarUrl, className 
   return (
     <Card className={`h-full flex flex-col ${className}`} {...props}>
       <CardBody className="flex-grow">
-        <svg className="h-8 w-8 text-red-500 mb-4" fill="currentColor" viewBox="0 0 24 24">
+        <svg className="h-8 w-8 text-purple-500 mb-4" fill="currentColor" viewBox="0 0 24 24">
           <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
         </svg>
         
