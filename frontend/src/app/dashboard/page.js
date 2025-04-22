@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/context/AuthContext';
-import { bookingService } from '@/lib/api';
+import { useAuth } from '../../context/AuthContext';
+import { bookingService } from '../../lib/api';
 import { 
   Calendar, Clock, MapPin, Truck, Package, AlertTriangle, 
   CheckCircle, XCircle, FileText, ChevronRight, Loader 

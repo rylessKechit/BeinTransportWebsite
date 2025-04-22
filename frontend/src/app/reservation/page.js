@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Truck, Users, MapPin, Calendar, Clock, ChevronRight, ChevronLeft, Package, Home, FileText } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import { vehicleService, bookingService } from '@/lib/api';
+import { useAuth } from '../../context/AuthContext';
+import { vehicleService, bookingService } from '../../lib/api';
 
 // Étapes du formulaire de réservation
 const STEPS = {

@@ -1,11 +1,11 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "../styles/responsive.css"; // Importer les styles responsives
+import "../styles/responsive.css"; 
 
-import { AuthProvider } from '@/context/AuthContext';
-import Header from '@/components/layouts/header';
-import Footer from '@/components/layouts/footer';
-import MobileBottomNav from '@/components/ui/MobileBottomNav';
+import { AuthProvider } from '../context/AuthContext';
+import Header from '../components/layouts/Header';
+import Footer from '../components/layouts/Footer';
+import MobileBottomNav from '../components/ui/MobileBottomNav';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
