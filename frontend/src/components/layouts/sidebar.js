@@ -83,7 +83,7 @@ export default function Sidebar() {
     <>
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <Link href="/" className={`${collapsed ? 'hidden' : ''} text-xl font-bold text-purple-600`}>
-          TransExpress
+          Bein Transports
         </Link>
         <button
           onClick={toggleSidebar}
@@ -171,7 +171,7 @@ export default function Sidebar() {
       <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg overflow-y-auto">
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <Link href="/" className="text-xl font-bold text-purple-600">
-            TransExpress
+            Bein Transports
           </Link>
           <button
             onClick={toggleMobileSidebar}

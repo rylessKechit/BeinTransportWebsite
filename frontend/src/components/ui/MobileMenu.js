@@ -85,7 +85,7 @@ export default function MobileMenu() {
           {/* En-tête du menu */}
           <div className="p-4 border-b border-gray-200">
             <Link href="/" className="text-2xl font-bold text-purple-600">
-              TransExpress
+              Bein Transports
             </Link>
           </div>
 

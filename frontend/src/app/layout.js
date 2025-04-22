@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'TransExpress - Service de transport et déménagement',
+  title: 'Bein Transports - Service de transport et déménagement',
   description: 'Réservez votre véhicule de transport ou déménagement rapidement et simplement.',
   viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0',
 };

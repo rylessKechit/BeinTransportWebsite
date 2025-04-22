@@ -32,7 +32,7 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-purple-600">
-            TransExpress
+            Bein Transports
           </Link>
 
           {/* Navigation Desktop */}

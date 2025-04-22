@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Logo et description */}
           <div className="md:col-span-1">
             <Link href="/" className="text-2xl font-bold text-white">
-              TransExpress
+              Bein Transports
             </Link>
             <p className="mt-4 text-gray-400">
               Votre partenaire de confiance pour tous vos besoins de transport et déménagement.
@@ -102,7 +102,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
-          <p>&copy; {new Date().getFullYear()} TransExpress. Tous droits réservés.</p>
+          <p>&copy; {new Date().getFullYear()} Bein Transports. Tous droits réservés.</p>
         </div>
       </div>
     </footer>
