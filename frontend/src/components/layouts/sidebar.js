@@ -7,7 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 import { 
   Home, Package, Truck, User, CreditCard, Settings, 
   ChevronLeft, ChevronRight, LogOut, HelpCircle, 
-  Bell, BarChart, X
+  Bell, BarChart, X, Menu
 } from 'lucide-react';
 
 export default function Sidebar() {

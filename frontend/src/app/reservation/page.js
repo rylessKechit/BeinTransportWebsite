@@ -70,29 +70,23 @@ export default function ReservationPage() {
     };
     
     fetchVehicles();
-    
-    // Si un paramètre de véhicule est présent dans l'URL, le présélectionner
+  }, []);
+
+  // Effet séparé pour gérer la présélection de véhicule
+  useEffect(() => {
     const vehicleParam = searchParams.get('vehicle');
-    if (vehicleParam) {
-      // Attendre que les véhicules soient chargés puis sélectionner celui qui correspond
-      const interval = setInterval(() => {
-        if (vehicles.length > 0) {
-          const selectedVehicle = vehicles.find(v => v.capacity === parseInt(vehicleParam.replace('m3', '')));
-          if (selectedVehicle) {
-            setBooking(prev => ({ 
-              ...prev, 
-              vehicleId: selectedVehicle._id,
-              vehicle: selectedVehicle
-            }));
-            setStep(STEPS.ADDRESSES); // Passer directement à l'étape des adresses
-          }
-          clearInterval(interval);
-        }
-      }, 500);
-      
-      return () => clearInterval(interval);
+    if (vehicleParam && vehicles.length > 0) {
+      const selectedVehicle = vehicles.find(v => v.capacity === parseInt(vehicleParam.replace('m3', '')));
+      if (selectedVehicle) {
+        setBooking(prev => ({ 
+          ...prev, 
+          vehicleId: selectedVehicle._id,
+          vehicle: selectedVehicle
+        }));
+        setStep(STEPS.ADDRESSES); // Passer directement à l'étape des adresses
+      }
     }
-  }, [searchParams]);
+  }, [searchParams, vehicles]);
   
   // Rediriger vers la connexion si l'utilisateur n'est pas connecté
   useEffect(() => {

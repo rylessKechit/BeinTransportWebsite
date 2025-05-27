@@ -167,8 +167,17 @@ export function PricingCard({ title, price, features = [], popular = false, acti
   );
 }
 
-// Carte de statistiques
-export function StatsCard({ title, value, description, icon, change, changeDirection = 'up', change, changeDirection = 'up', className = '', ...props }) {
+// Carte de statistiques - CORRECTION: suppression de la duplication du paramètre 'change'
+export function StatsCard({ 
+  title, 
+  value, 
+  description, 
+  icon, 
+  change, 
+  changeDirection = 'up',
+  className = '', 
+  ...props 
+}) {
   return (
     <Card className={`h-full ${className}`} {...props}>
       <CardBody>

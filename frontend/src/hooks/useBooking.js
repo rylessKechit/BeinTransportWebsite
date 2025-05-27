@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { bookingService, vehicleService } from '../lib/api';
 import useAuth from './useAuth';
@@ -15,8 +15,8 @@ export default function useBooking() {
   const { user } = useAuth();
   const router = useRouter();
 
-  // Récupérer toutes les réservations de l'utilisateur
-  const fetchBookings = async () => {
+  // Récupérer toutes les réservations de l'utilisateur - CORRECTION: utilisation de useCallback
+  const fetchBookings = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -39,7 +39,7 @@ export default function useBooking() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]); // user est une dépendance car fetchBookings en dépend
 
   // Récupérer une réservation spécifique
   const fetchBookingById = async (bookingId) => {
@@ -229,14 +229,14 @@ export default function useBooking() {
     fetchVehicles();
   }, []);
 
-  // Effet pour charger les réservations quand l'utilisateur change
+  // Effet pour charger les réservations quand l'utilisateur change - CORRECTION: fetchBookings ajouté aux dépendances
   useEffect(() => {
     if (user) {
       fetchBookings();
     } else {
       setBookings([]);
     }
-  }, [user]);
+  }, [user, fetchBookings]);
 
   return {
     bookings,

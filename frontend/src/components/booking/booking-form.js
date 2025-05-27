@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import Image from 'next/image';
 import { 
   Truck, Home, Package, Calendar, Clock, MapPin, 
   Users, ChevronRight, ChevronLeft, AlertCircle 
@@ -314,9 +315,11 @@ export default function BookingForm({ onComplete }) {
                     
                     <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-200 flex items-center justify-center">
                       {vehicle.imageUrl && vehicle.imageUrl !== '/images/default-vehicle.jpg' ? (
-                        <img 
+                        <Image 
                           src={vehicle.imageUrl} 
                           alt={vehicle.name} 
+                          width={80}
+                          height={80}
                           className="w-full h-full object-cover"
                         />
                       ) : (
@@ -635,7 +638,7 @@ export default function BookingForm({ onComplete }) {
             </button>
             )}
         </div>
-        </form>
+      </form>
     </div>
-    );
+  );
 }

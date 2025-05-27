@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Truck, Info, ArrowRight, Loader } from 'lucide-react';
 import { vehicleService } from '../../lib/api';
 import { formatCurrency } from '../../lib/utils';
@@ -87,9 +88,11 @@ function VehicleCard({ vehicle }) {
     <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       <div className="relative h-56 bg-gray-200">
         {vehicle.imageUrl && vehicle.imageUrl !== '/images/default-vehicle.jpg' ? (
-          <img 
+          <Image 
             src={vehicle.imageUrl} 
             alt={vehicle.name} 
+            width={400}
+            height={224}
             className="w-full h-full object-cover"
           />
         ) : (

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { authService } from '../lib/api';
 import Cookies from 'js-cookie';
@@ -12,13 +12,8 @@ export default function useAuth() {
   const [error, setError] = useState(null);
   const router = useRouter();
 
-  // Vérifier l'état d'authentification au chargement
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  // Vérifier si l'utilisateur est connecté
-  const checkAuth = async () => {
+  // Vérifier si l'utilisateur est connecté - CORRECTION: utilisation de useCallback
+  const checkAuth = useCallback(async () => {
     try {
       setLoading(true);
       const token = Cookies.get('token');
@@ -45,7 +40,12 @@ export default function useAuth() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []); // Pas de dépendances car logout est défini plus bas
+
+  // Vérifier l'état d'authentification au chargement - CORRECTION: ajout de checkAuth dans les dépendances
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   // Connexion utilisateur
   const login = async (email, password) => {
