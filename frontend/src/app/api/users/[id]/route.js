@@ -1,6 +1,6 @@
 // frontend/src/app/api/users/[id]/route.js
 import { NextResponse } from 'next/server';
-import User from '../../../../models/User';
+import User from '../../../../models/Users';
 import { withAuth, APIError } from '../../../../lib/middleware';
 
 // GET /api/users/[id] - Obtenir un utilisateur spécifique (admin uniquement)
