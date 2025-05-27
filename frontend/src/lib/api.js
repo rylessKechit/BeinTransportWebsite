@@ -1,8 +1,8 @@
+// frontend/src/lib/api.js (VERSION MISE À JOUR)
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import useSWR from 'swr';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 
 // Création d'une instance axios avec la configuration de base
 const api = axios.create({
@@ -178,16 +178,6 @@ export const bookingService = {
       throw error;
     }
   },
-  
-  // Calculer le prix estimé d'une réservation
-  calculatePrice: async (bookingData) => {
-    try {
-      const response = await api.post('/bookings/calculate', bookingData);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  }
 };
 
 // Service de paiement (pour Stripe)
@@ -211,21 +201,43 @@ export const paymentService = {
   }
 };
 
-// Hook personnalisé pour SWR (récupération de données avec mise en cache)
-export const useFetch = (url, options = {}) => {
-  const fetcher = async (url) => {
-    const response = await api.get(url);
-    return response.data;
-  };
+// Service des utilisateurs (admin uniquement)
+export const userService = {
+  getAll: async () => {
+    try {
+      const response = await api.get('/users');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
   
-  const { data, error, mutate } = useSWR(url, fetcher, options);
+  getById: async (id) => {
+    try {
+      const response = await api.get(`/users/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
   
-  return {
-    data,
-    isLoading: !error && !data,
-    isError: error,
-    mutate
-  };
+  update: async (id, userData) => {
+    try {
+      const response = await api.put(`/users/${id}`, userData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  
+  delete: async (id) => {
+    try {
+      const response = await api.delete(`/users/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 };
 
 export default api;
