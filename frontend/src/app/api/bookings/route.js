@@ -1,8 +1,8 @@
-// frontend/src/app/api/bookings/route.js
+// frontend/src/app/api/bookings/route.js (VERSION CORRIGÉE)
 import { NextResponse } from 'next/server';
 import Booking from '../../../models/Booking';
 import Vehicle from '../../../models/Vehicle';
-import { withAuth, APIError } from '../../../lib/middleware';
+import { withAuth, withoutAuth, APIError } from '../../../lib/middleware';
 
 // GET /api/bookings - Obtenir toutes les réservations
 export const GET = withAuth(async (req) => {

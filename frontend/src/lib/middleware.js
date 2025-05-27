@@ -1,5 +1,6 @@
-// frontend/src/lib/middleware.js
+// frontend/src/lib/middleware.js (VERSION CORRIGÉE)
 import jwt from 'jsonwebtoken';
+import { NextResponse } from 'next/server';
 import User from '../models/User';
 import dbConnect from './db';
 
@@ -12,54 +13,55 @@ export class APIError extends Error {
   }
 }
 
-// Wrapper pour gérer les erreurs async
-export const asyncHandler = (fn) => async (req, res) => {
+// Wrapper pour gérer les erreurs async dans Next.js App Router
+export const asyncHandler = (fn) => async (req, context) => {
   try {
     await dbConnect();
-    return await fn(req, res);
+    return await fn(req, context);
   } catch (error) {
     console.error('API Error:', error);
     
     if (error instanceof APIError) {
-      return res.status(error.statusCode).json({
+      return NextResponse.json({
         success: false,
         message: error.message
-      });
+      }, { status: error.statusCode });
     }
     
     // Erreurs de validation Mongoose
     if (error.name === 'ValidationError') {
       const message = Object.values(error.errors).map(val => val.message).join(', ');
-      return res.status(400).json({
+      return NextResponse.json({
         success: false,
         message
-      });
+      }, { status: 400 });
     }
     
     // Erreur de duplication (email déjà utilisé)
     if (error.code === 11000) {
       const field = Object.keys(error.keyValue)[0];
       const message = `${field} déjà utilisé`;
-      return res.status(400).json({
+      return NextResponse.json({
         success: false,
         message
-      });
+      }, { status: 400 });
     }
     
-    return res.status(500).json({
+    return NextResponse.json({
       success: false,
       message: 'Erreur serveur interne'
-    });
+    }, { status: 500 });
   }
 };
 
 // Middleware de protection des routes
-export const protect = async (req, res, next) => {
+export const protect = async (req) => {
   let token;
 
   // Récupérer le token depuis Authorization header
-  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-    token = req.headers.authorization.split(' ')[1];
+  const authHeader = req.headers.get('authorization');
+  if (authHeader && authHeader.startsWith('Bearer')) {
+    token = authHeader.split(' ')[1];
   }
 
   // Vérifier que le token existe
@@ -79,10 +81,6 @@ export const protect = async (req, res, next) => {
     }
 
     req.user = user;
-    
-    if (next) {
-      return next();
-    }
     return user;
   } catch (err) {
     if (err instanceof APIError) {
@@ -94,34 +92,32 @@ export const protect = async (req, res, next) => {
 
 // Middleware d'autorisation par rôle
 export const authorize = (...roles) => {
-  return (req, res, next) => {
+  return (req) => {
+    if (!req.user) {
+      throw new APIError('Utilisateur non authentifié', 401);
+    }
+    
     if (!roles.includes(req.user.role)) {
       throw new APIError(
         `Le rôle ${req.user.role} n'est pas autorisé à accéder à cette route`,
         403
       );
     }
-    if (next) {
-      return next();
-    }
   };
 };
 
 // Helper pour vérifier l'authentification dans les API routes
 export const withAuth = (handler, requiredRoles = []) => {
-  return asyncHandler(async (req, res) => {
+  return asyncHandler(async (req, context) => {
     // Vérifier l'authentification
-    await protect(req, res);
+    await protect(req);
     
     // Vérifier les rôles si spécifiés
-    if (requiredRoles.length > 0 && !requiredRoles.includes(req.user.role)) {
-      throw new APIError(
-        `Le rôle ${req.user.role} n'est pas autorisé à accéder à cette route`,
-        403
-      );
+    if (requiredRoles.length > 0) {
+      authorize(...requiredRoles)(req);
     }
     
-    return handler(req, res);
+    return handler(req, context);
   });
 };
 
