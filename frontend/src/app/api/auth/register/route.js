@@ -1,6 +1,6 @@
 // frontend/src/app/api/auth/register/route.js
 import { NextResponse } from 'next/server';
-import User from '../../../../models/Users';
+import User from '../../../../models/User';
 import { withoutAuth, APIError } from '../../../../lib/middleware';
 
 const sendTokenResponse = (user, statusCode) => {

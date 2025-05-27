@@ -1,7 +1,7 @@
 
 // frontend/src/app/api/users/route.js
 import { NextResponse } from 'next/server';
-import User from '../../../models/Users';
+import User from '../../../models/User';
 import { withAuth, APIError } from '../../../lib/middleware';
 
 // GET /api/users - Obtenir tous les utilisateurs (admin uniquement)

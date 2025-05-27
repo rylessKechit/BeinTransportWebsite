@@ -1,4 +1,4 @@
-// frontend/src/models/Users.js
+// frontend/src/models/User.js
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';

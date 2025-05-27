@@ -1,6 +1,6 @@
 // frontend/src/lib/middleware.js
 import jwt from 'jsonwebtoken';
-import User from '../models/Users';
+import User from '../models/User';
 import dbConnect from './db';
 
 // Classe d'erreur personnalisée

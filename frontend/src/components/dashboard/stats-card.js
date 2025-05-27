@@ -1,9 +1,9 @@
 'use client';
 
-import { Truck, Package, CreditCard, Clock } from 'lucide-react';
+import Link from 'next/link';
+import { Truck, Package, CreditCard, Clock, Calendar } from 'lucide-react';
 
-export default function StatsCard({ title, value, type, change }) {
-  // Déterminer l'icône en fonction du type
+export default function StatsCard({ title, value, type, change, changeDirection = 'up' }) {
   const getIcon = () => {
     switch (type) {
       case 'reservations':
@@ -19,13 +19,11 @@ export default function StatsCard({ title, value, type, change }) {
     }
   };
 
-  // Déterminer la couleur du changement
   const getChangeColor = () => {
     if (!change) return 'text-gray-500';
     return change > 0 ? 'text-green-500' : 'text-purple-500';
   };
 
-  // Formater le changement avec + ou -
   const formatChange = () => {
     if (!change) return null;
     const prefix = change > 0 ? '+' : '';
@@ -54,7 +52,6 @@ export default function StatsCard({ title, value, type, change }) {
   );
 }
 
-// Carte pour afficher les réservations à venir
 export function UpcomingBookingsCard({ bookings = [] }) {
   return (
     <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all">
@@ -104,7 +101,6 @@ export function UpcomingBookingsCard({ bookings = [] }) {
   );
 }
 
-// Carte pour afficher les statistiques de paiement
 export function PaymentStatsCard({ totalAmount, pendingAmount, paidAmount }) {
   return (
     <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all">
