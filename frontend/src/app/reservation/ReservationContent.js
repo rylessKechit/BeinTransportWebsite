@@ -1,18 +1,22 @@
+// frontend/src/app/reservation/ReservationContent.js (VERSION MISE À JOUR)
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Truck, Users, MapPin, Calendar, Clock, ChevronRight, ChevronLeft, Package, Home, FileText } from 'lucide-react';
+import { Truck, Users, MapPin, Calendar, ChevronRight, ChevronLeft, Package, Home, AlertCircle, Loader } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { vehicleService, bookingService } from '../../lib/api';
+import useGoogleMaps from '../../hooks/useGoogleMaps';
+import AddressAutocomplete from '../../components/ui/AddressAutocomplete';
+import DurationSlider from '../../components/ui/DurationSlider';
 
 // Étapes du formulaire de réservation
 const STEPS = {
   SERVICE_TYPE: 0,
   VEHICLE: 1,
   ADDRESSES: 2,
-  DATE_TIME: 3,
+  DATE_DURATION: 3,
   HANDLERS: 4,
   SUMMARY: 5,
 };
@@ -22,22 +26,15 @@ export default function ReservationContent() {
   const [booking, setBooking] = useState({
     serviceType: '',
     vehicleId: '',
-    vehicle: null, // Pour stocker les informations complètes du véhicule
-    pickupAddress: {
-      street: '',
-      city: '',
-      postalCode: '',
-      country: 'France'
-    },
-    deliveryAddress: {
-      street: '',
-      city: '',
-      postalCode: '',
-      country: 'France'
-    },
+    vehicle: null,
+    pickupAddress: {},
+    deliveryAddress: {},
     date: '',
-    timeSlot: '',
+    duration: 20, // Durée en minutes
     handlers: 0,
+    distance: 0, // Distance en km
+    distancePrice: 0, // Prix de la distance
+    durationPrice: 0, // Prix de la durée
     totalPrice: 0,
     notes: '',
     status: 'pending',
@@ -47,10 +44,12 @@ export default function ReservationContent() {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [calculatingDistance, setCalculatingDistance] = useState(false);
   
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user } = useAuth();
+  const { isLoaded: mapsLoaded, calculateDistance } = useGoogleMaps();
   
   // Chargement des véhicules
   useEffect(() => {
@@ -72,7 +71,7 @@ export default function ReservationContent() {
     fetchVehicles();
   }, []);
 
-  // Effet séparé pour gérer la présélection de véhicule
+  // Présélection de véhicule depuis l'URL
   useEffect(() => {
     const vehicleParam = searchParams.get('vehicle');
     if (vehicleParam && vehicles.length > 0) {
@@ -83,21 +82,78 @@ export default function ReservationContent() {
           vehicleId: selectedVehicle._id,
           vehicle: selectedVehicle
         }));
-        setStep(STEPS.ADDRESSES); // Passer directement à l'étape des adresses
+        setStep(STEPS.ADDRESSES);
       }
     }
   }, [searchParams, vehicles]);
   
-  // Rediriger vers la connexion si l'utilisateur n'est pas connecté
+  // Redirection si non connecté
   useEffect(() => {
     if (!user && !loading) {
       router.push('/auth/login?redirect=/reservation');
     }
   }, [user, loading, router]);
   
+  // Calculer la distance quand les deux adresses sont définies
+  useEffect(() => {
+    if (booking.pickupAddress.coordinates && booking.deliveryAddress.coordinates && mapsLoaded) {
+      calculateDistanceAndPrice();
+    }
+  }, [booking.pickupAddress.coordinates, booking.deliveryAddress.coordinates, mapsLoaded]);
+
+  // Recalculer le prix total quand les paramètres changent
+  useEffect(() => {
+    calculateTotalPrice();
+  }, [booking.vehicle, booking.distance, booking.duration, booking.handlers]);
+
+  const calculateDistanceAndPrice = async () => {
+    if (!booking.pickupAddress.coordinates || !booking.deliveryAddress.coordinates) return;
+    
+    try {
+      setCalculatingDistance(true);
+      const result = await calculateDistance(
+        booking.pickupAddress.coordinates,
+        booking.deliveryAddress.coordinates
+      );
+      
+      const distanceInKm = result.distance;
+      const distancePrice = distanceInKm * 0.25; // 25 centimes par km
+      
+      setBooking(prev => ({
+        ...prev,
+        distance: distanceInKm,
+        distancePrice: distancePrice
+      }));
+      
+    } catch (error) {
+      console.error('Erreur de calcul de distance:', error);
+      setError('Impossible de calculer la distance entre les adresses');
+    } finally {
+      setCalculatingDistance(false);
+    }
+  };
+
+  const calculateTotalPrice = () => {
+    if (!booking.vehicle) return;
+    
+    const basePrice = booking.vehicle.basePrice;
+    const handlerPrice = booking.handlers * 25; // 25€ par manutentionnaire
+    const distancePrice = booking.distancePrice || 0;
+    
+    // Calcul du prix de la durée
+    const durationPrice = booking.duration <= 20 ? 0 : Math.ceil((booking.duration - 20) / 15) * 5;
+    
+    const totalPrice = basePrice + handlerPrice + distancePrice + durationPrice;
+    
+    setBooking(prev => ({
+      ...prev,
+      durationPrice,
+      totalPrice
+    }));
+  };
+  
   const updateBooking = (field, value) => {
     setBooking(prev => {
-      // Cas spécial pour les champs imbriqués comme pickupAddress.street
       if (field.includes('.')) {
         const [parent, child] = field.split('.');
         return {
@@ -109,7 +165,6 @@ export default function ReservationContent() {
         };
       }
       
-      // Mise à jour standard des champs
       return { ...prev, [field]: value };
     });
   };
@@ -127,54 +182,27 @@ export default function ReservationContent() {
     }
     
     if (step === STEPS.ADDRESSES) {
-      if (!booking.pickupAddress.street || !booking.pickupAddress.city || !booking.pickupAddress.postalCode) {
-        setError("Veuillez remplir l'adresse de départ.");
+      if (!booking.pickupAddress.street || !booking.pickupAddress.city) {
+        setError("Veuillez sélectionner une adresse de départ valide.");
         return;
       }
-      if (!booking.deliveryAddress.street || !booking.deliveryAddress.city || !booking.deliveryAddress.postalCode) {
-        setError("Veuillez remplir l'adresse d'arrivée.");
-        return;
-      }
-    }
-    
-    if (step === STEPS.DATE_TIME) {
-      if (!booking.date) {
-        setError("Veuillez sélectionner une date.");
-        return;
-      }
-      if (!booking.timeSlot) {
-        setError("Veuillez sélectionner un créneau horaire.");
+      if (!booking.deliveryAddress.street || !booking.deliveryAddress.city) {
+        setError("Veuillez sélectionner une adresse d'arrivée valide.");
         return;
       }
     }
     
-    // Effacer l'erreur et passer à l'étape suivante
+    if (step === STEPS.DATE_DURATION && !booking.date) {
+      setError("Veuillez sélectionner une date.");
+      return;
+    }
+    
     setError(null);
     setStep(prev => prev + 1);
-    
-    // Calcul du prix total à l'étape du récapitulatif
-    if (step === STEPS.HANDLERS) {
-      calculateTotalPrice();
-    }
   };
   
   const prevStep = () => {
     setStep(prev => prev - 1);
-  };
-  
-  const calculateTotalPrice = () => {
-    if (!booking.vehicle) return;
-    
-    const basePrice = booking.vehicle.basePrice;
-    const handlerPrice = booking.handlers * 25; // 25€ par manutentionnaire
-    
-    // Estimation simple - dans un cas réel, ça pourrait être calculé via Google Maps API
-    const estimatedDistance = 10; // km
-    const distancePrice = estimatedDistance * booking.vehicle.pricePerKm;
-    
-    const totalPrice = basePrice + handlerPrice + distancePrice;
-    
-    updateBooking('totalPrice', totalPrice);
   };
   
   const handleSubmit = async () => {
@@ -185,16 +213,23 @@ export default function ReservationContent() {
     
     try {
       setLoading(true);
-      // Préparer les données pour l'API
+      
       const bookingData = {
-        ...booking,
-        bookingType: booking.serviceType, // L'API attend bookingType au lieu de serviceType
+        bookingType: booking.serviceType,
+        vehicleId: booking.vehicleId,
+        pickupAddress: booking.pickupAddress,
+        deliveryAddress: booking.deliveryAddress,
+        date: booking.date,
+        duration: booking.duration,
+        distance: booking.distance,
+        handlers: booking.handlers,
+        totalPrice: booking.totalPrice,
+        notes: booking.notes
       };
       
       const response = await bookingService.create(bookingData);
       
       if (response.success) {
-        // Rediriger vers la page de paiement avec l'ID de réservation
         router.push(`/paiement?bookingId=${response.data._id}`);
       } else {
         setError("Erreur lors de la création de la réservation.");
@@ -238,12 +273,11 @@ export default function ReservationContent() {
                   {stepIndex === STEPS.SERVICE_TYPE && 'Service'}
                   {stepIndex === STEPS.VEHICLE && 'Véhicule'}
                   {stepIndex === STEPS.ADDRESSES && 'Adresses'}
-                  {stepIndex === STEPS.DATE_TIME && 'Date/Heure'}
+                  {stepIndex === STEPS.DATE_DURATION && 'Date/Durée'}
                   {stepIndex === STEPS.HANDLERS && 'Manutention'}
                   {stepIndex === STEPS.SUMMARY && 'Récapitulatif'}
                 </div>
                 
-                {/* Ligne de connexion, sauf pour la dernière étape */}
                 {stepIndex < Object.values(STEPS).length - 1 && (
                   <div 
                     className={`absolute top-5 left-full w-full h-0.5 
@@ -258,12 +292,13 @@ export default function ReservationContent() {
         
         {/* Message d'erreur */}
         {error && (
-          <div className="max-w-3xl mx-auto mb-6 bg-purple-50 border-l-4 border-purple-600 p-4 text-purple-700">
-            {error}
+          <div className="max-w-3xl mx-auto mb-6 bg-red-50 border-l-4 border-red-600 p-4 text-red-700 flex items-start">
+            <AlertCircle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
+            <p>{error}</p>
           </div>
         )}
         
-        {/* Contenu du formulaire basé sur l'étape actuelle */}
+        {/* Contenu du formulaire */}
         <motion.div 
           className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8"
           key={step}
@@ -293,17 +328,20 @@ export default function ReservationContent() {
             <AddressesStep 
               pickupAddress={booking.pickupAddress}
               deliveryAddress={booking.deliveryAddress}
-              onPickupChange={(field, value) => updateBooking(`pickupAddress.${field}`, value)}
-              onDeliveryChange={(field, value) => updateBooking(`deliveryAddress.${field}`, value)}
+              onPickupChange={(address) => updateBooking('pickupAddress', address)}
+              onDeliveryChange={(address) => updateBooking('deliveryAddress', address)}
+              calculatingDistance={calculatingDistance}
+              distance={booking.distance}
+              distancePrice={booking.distancePrice}
             />
           )}
           
-          {step === STEPS.DATE_TIME && (
-            <DateTimeStep 
+          {step === STEPS.DATE_DURATION && (
+            <DateDurationStep 
               date={booking.date}
-              timeSlot={booking.timeSlot}
+              duration={booking.duration}
               onDateChange={(date) => updateBooking('date', date)}
-              onTimeSlotChange={(timeSlot) => updateBooking('timeSlot', timeSlot)}
+              onDurationChange={(duration) => updateBooking('duration', duration)}
             />
           )}
           
@@ -312,6 +350,8 @@ export default function ReservationContent() {
               handlers={booking.handlers}
               vehicleCapacity={booking.vehicle?.capacity}
               onChange={(handlers) => updateBooking('handlers', handlers)}
+              notes={booking.notes}
+              onNotesChange={(notes) => updateBooking('notes', notes)}
             />
           )}
           
@@ -333,22 +373,32 @@ export default function ReservationContent() {
                 Retour
               </button>
             ) : (
-              <div /> // Placeholder pour maintenir le flex justify-between
+              <div />
             )}
             
             {step < STEPS.SUMMARY ? (
               <button 
                 onClick={nextStep}
-                className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg flex items-center"
+                disabled={calculatingDistance}
+                className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white py-2 px-6 rounded-lg flex items-center"
               >
-                Suivant
-                <ChevronRight className="w-5 h-5 ml-2" />
+                {calculatingDistance ? (
+                  <>
+                    <Loader className="animate-spin h-4 w-4 mr-2" />
+                    Calcul en cours...
+                  </>
+                ) : (
+                  <>
+                    Suivant
+                    <ChevronRight className="w-5 h-5 ml-2" />
+                  </>
+                )}
               </button>
             ) : (
               <button 
                 onClick={handleSubmit}
                 disabled={loading}
-                className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-lg"
+                className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white py-2 px-6 rounded-lg"
               >
                 {loading ? 'Traitement en cours...' : 'Confirmer et payer'}
               </button>
@@ -360,7 +410,7 @@ export default function ReservationContent() {
   );
 }
 
-// Composants pour chaque étape du formulaire
+// Composants pour chaque étape
 function ServiceTypeStep({ selected, onChange }) {
   const serviceTypes = [
     { id: 'demenagement', name: 'Déménagement', icon: <Home className="w-12 h-12 text-purple-600 mb-4" /> },
@@ -423,234 +473,157 @@ function VehicleStep({ vehicles, selected, onChange }) {
   );
 }
 
-function AddressesStep({ pickupAddress, deliveryAddress, onPickupChange, onDeliveryChange }) {
+function AddressesStep({ pickupAddress, deliveryAddress, onPickupChange, onDeliveryChange, calculatingDistance, distance, distancePrice }) {
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-6">Adresses de prise en charge et de livraison</h2>
       
-      <div className="mb-6">
-        <h3 className="text-lg font-medium mb-4">Adresse de prise en charge</h3>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              Rue et numéro
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <MapPin className="h-5 w-5 text-gray-400" />
+      <div className="space-y-6">
+        <AddressAutocomplete
+          label="Adresse de prise en charge"
+          placeholder="Tapez votre adresse de départ..."
+          value={pickupAddress}
+          onChange={onPickupChange}
+          required
+        />
+        
+        <AddressAutocomplete
+          label="Adresse de livraison"
+          placeholder="Tapez votre adresse d'arrivée..."
+          value={deliveryAddress}
+          onChange={onDeliveryChange}
+          required
+        />
+        
+        {/* Affichage de la distance calculée */}
+        {calculatingDistance && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center">
+            <Loader className="animate-spin h-5 w-5 text-blue-600 mr-3" />
+            <span className="text-blue-800">Calcul de la distance en cours...</span>
+          </div>
+        )}
+        
+        {distance > 0 && !calculatingDistance && (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <MapPin className="h-5 w-5 text-green-600 mr-2" />
+                <span className="text-green-800 font-medium">
+                  Distance: {distance.toFixed(1)} km
+                </span>
               </div>
-              <input
-                type="text"
-                value={pickupAddress.street}
-                onChange={(e) => onPickupChange('street', e.target.value)}
-                className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
-                placeholder="Rue et numéro"
-                required
-              />
+              <span className="text-green-800 font-semibold">
+                +{distancePrice.toFixed(2)}€
+              </span>
             </div>
+            <p className="text-sm text-green-700 mt-1">
+              Tarif: 0,25€ par kilomètre
+            </p>
           </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">
-                Ville
-              </label>
-              <input
-                type="text"
-                value={pickupAddress.city}
-                onChange={(e) => onPickupChange('city', e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
-                placeholder="Ville"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">
-                Code postal
-              </label>
-              <input
-                type="text"
-                value={pickupAddress.postalCode}
-                onChange={(e) => onPickupChange('postalCode', e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
-                placeholder="Code postal"
-                required
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div>
-        <h3 className="text-lg font-medium mb-4">Adresse de livraison</h3>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              Rue et numéro
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <MapPin className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                value={deliveryAddress.street}
-                onChange={(e) => onDeliveryChange('street', e.target.value)}
-                className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
-                placeholder="Rue et numéro"
-                required
-              />
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">
-                Ville
-              </label>
-              <input
-                type="text"
-                value={deliveryAddress.city}
-                onChange={(e) => onDeliveryChange('city', e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
-                placeholder="Ville"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">
-                Code postal
-              </label>
-              <input
-                type="text"
-                value={deliveryAddress.postalCode}
-                onChange={(e) => onDeliveryChange('postalCode', e.target.value)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
-                placeholder="Code postal"
-                required
-              />
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
 }
 
-function DateTimeStep({ date, timeSlot, onDateChange, onTimeSlotChange }) {
-  const timeSlots = [
-    '8h00 - 10h00',
-    '10h00 - 12h00',
-    '13h00 - 15h00',
-    '15h00 - 17h00',
-    '17h00 - 19h00'
-  ];
-  
-  // Obtenir la date du jour au format YYYY-MM-DD pour le min du input date
+function DateDurationStep({ date, duration, onDateChange, onDurationChange }) {
   const today = new Date().toISOString().split('T')[0];
   
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-6">Date et créneau horaire</h2>
+      <h2 className="text-2xl font-semibold mb-6">Date et durée de réservation</h2>
       
-      <div className="mb-6">
-        <label className="block text-gray-700 font-medium mb-2">
-          Date souhaitée
-        </label>
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <Calendar className="h-5 w-5 text-gray-400" />
-          </div>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => onDateChange(e.target.value)}
-            className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
-            min={today}
-            required
-          />
-        </div>
-      </div>
-      
-      <div>
-        <label className="block text-gray-700 font-medium mb-2">
-          Créneau horaire
-        </label>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {timeSlots.map((slot) => (
-            <div 
-              key={slot}
-              className={`border-2 rounded-lg p-3 text-center cursor-pointer transition-all
-                ${timeSlot === slot ? 'border-purple-600 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}`}
-              onClick={() => onTimeSlotChange(slot)}
-            >
-              <div className="flex items-center justify-center">
-                <Clock className="h-4 w-4 mr-2 text-gray-500" />
-                <span>{slot}</span>
-              </div>
+      <div className="space-y-8">
+        <div>
+          <label className="block text-gray-700 font-medium mb-2">
+            Date souhaitée
+          </label>
+          <div className="relative max-w-xs">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <Calendar className="h-5 w-5 text-gray-400" />
             </div>
-          ))}
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => onDateChange(e.target.value)}
+              className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+              min={today}
+              required
+            />
+          </div>
         </div>
+        
+        <DurationSlider
+          value={duration}
+          onChange={onDurationChange}
+        />
       </div>
     </div>
   );
 }
 
-function HandlersStep({ handlers, vehicleCapacity, onChange }) {
-  // Détermine le nombre maximum de manutentionnaires en fonction de la capacité du véhicule
+function HandlersStep({ handlers, vehicleCapacity, onChange, notes, onNotesChange }) {
   const maxHandlers = vehicleCapacity <= 3 ? 1 : 2;
   
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-6">Manutentionnaires</h2>
-      <p className="text-gray-600 mb-6">
-        Besoin d'aide pour charger et décharger votre véhicule ? Ajoutez des manutentionnaires à votre réservation.
-        {vehicleCapacity <= 3 ? ' Pour ce véhicule, vous pouvez réserver 1 manutentionnaire maximum.' : ' Pour ce véhicule, vous pouvez réserver jusqu\'à 2 manutentionnaires.'}
-      </p>
+      <h2 className="text-2xl font-semibold mb-6">Options supplémentaires</h2>
       
-      <div className="flex items-center justify-center p-6 border-2 border-gray-200 rounded-xl">
-        <button
-          onClick={() => onChange(Math.max(0, handlers - 1))}
-          className="w-12 h-12 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center text-2xl hover:bg-gray-300 disabled:opacity-50"
-          disabled={handlers === 0}
-        >
-          -
-        </button>
-        
-        <div className="mx-8 flex flex-col items-center">
-          <div className="flex items-center">
-            <Users className="h-6 w-6 text-purple-600 mr-3" />
-            <span className="text-3xl font-bold">{handlers}</span>
+      <div className="space-y-8">
+        <div>
+          <h3 className="text-lg font-medium mb-4">Manutentionnaires</h3>
+          <p className="text-gray-600 mb-6">
+            Besoin d'aide pour charger et décharger votre véhicule ? Ajoutez des manutentionnaires à votre réservation.
+            {vehicleCapacity <= 3 ? ' Pour ce véhicule, vous pouvez réserver 1 manutentionnaire maximum.' : ' Pour ce véhicule, vous pouvez réserver jusqu\'à 2 manutentionnaires.'}
+          </p>
+          
+          <div className="flex items-center justify-center p-6 border-2 border-gray-200 rounded-xl">
+            <button
+              type="button"
+              onClick={() => onChange(Math.max(0, handlers - 1))}
+              className="w-12 h-12 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center text-2xl hover:bg-gray-300 disabled:opacity-50"
+              disabled={handlers === 0}
+            >
+              -
+            </button>
+            
+            <div className="mx-8 flex flex-col items-center">
+              <div className="flex items-center">
+                <Users className="h-6 w-6 text-purple-600 mr-3" />
+                <span className="text-3xl font-bold">{handlers}</span>
+              </div>
+              <p className="text-gray-500 mt-2">Manutentionnaires</p>
+            </div>
+            
+            <button
+              type="button"
+              onClick={() => onChange(Math.min(maxHandlers, handlers + 1))}
+              className="w-12 h-12 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center text-2xl hover:bg-gray-300 disabled:opacity-50"
+              disabled={handlers === maxHandlers}
+            >
+              +
+            </button>
           </div>
-          <p className="text-gray-500 mt-2">Manutentionnaires</p>
+          
+          <p className="text-sm text-gray-500 mt-2 text-center">Prix par manutentionnaire : 25€</p>
         </div>
         
-        <button
-          onClick={() => onChange(Math.min(maxHandlers, handlers + 1))}
-          className="w-12 h-12 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center text-2xl hover:bg-gray-300 disabled:opacity-50"
-          disabled={handlers === maxHandlers}
-        >
-          +
-        </button>
-      </div>
-      
-      <div className="mt-6">
-        <p className="text-sm text-gray-500">Prix par manutentionnaire : 25€</p>
+        <div>
+          <h3 className="text-lg font-medium mb-4">Notes supplémentaires</h3>
+          <textarea
+            value={notes}
+            onChange={(e) => onNotesChange(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+            rows="4"
+            placeholder="Informations complémentaires pour votre réservation (accès, stationnement, objets fragiles, etc.)"
+          />
+        </div>
       </div>
     </div>
   );
 }
 
-function SummaryStep({ booking, vehicles }) {
-  // Trouver les détails du véhicule si on n'a que l'ID
-  const vehicle = booking.vehicle || vehicles.find(v => v._id === booking.vehicleId);
-  
-  // Calcul du prix total (simplifié)
-  const basePrice = vehicle?.basePrice || 0;
-  const handlerPrice = 25 * booking.handlers;
-  const totalPrice = booking.totalPrice || (basePrice + handlerPrice);
-  
-  // Formatage de la date pour affichage
+function SummaryStep({ booking }) {
   const formatDate = (dateStr) => {
     if (!dateStr) return '';
     const date = new Date(dateStr);
@@ -661,7 +634,6 @@ function SummaryStep({ booking, vehicles }) {
     }).format(date);
   };
   
-  // Trouver le nom du service sélectionné
   const getServiceName = (serviceType) => {
     switch (serviceType) {
       case 'demenagement': return 'Déménagement';
@@ -669,6 +641,14 @@ function SummaryStep({ booking, vehicles }) {
       case 'transport': return 'Transport divers';
       default: return serviceType;
     }
+  };
+
+  const formatDuration = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    if (hours === 0) return `${mins} min`;
+    if (mins === 0) return `${hours}h`;
+    return `${hours}h ${mins}min`;
   };
   
   return (
@@ -683,38 +663,42 @@ function SummaryStep({ booking, vehicles }) {
         <div className="p-6 space-y-4">
           <div className="flex justify-between pb-3 border-b border-gray-100">
             <span className="text-gray-600">Type de service</span>
-            <span className="font-medium">
-              {getServiceName(booking.serviceType)}
-            </span>
+            <span className="font-medium">{getServiceName(booking.serviceType)}</span>
           </div>
           
           <div className="flex justify-between pb-3 border-b border-gray-100">
             <span className="text-gray-600">Véhicule</span>
-            <span className="font-medium">{vehicle?.name} ({vehicle?.capacity} m³)</span>
+            <span className="font-medium">{booking.vehicle?.name} ({booking.vehicle?.capacity} m³)</span>
           </div>
           
           <div className="flex justify-between pb-3 border-b border-gray-100">
-            <span className="text-gray-600">Adresse de départ</span>
-            <span className="font-medium">
-              {booking.pickupAddress.street}, {booking.pickupAddress.postalCode} {booking.pickupAddress.city}
-            </span>
+            <span className="text-gray-600">Date</span>
+            <span className="font-medium">{formatDate(booking.date)}</span>
           </div>
           
           <div className="flex justify-between pb-3 border-b border-gray-100">
-            <span className="text-gray-600">Adresse d'arrivée</span>
-            <span className="font-medium">
-              {booking.deliveryAddress.street}, {booking.deliveryAddress.postalCode} {booking.deliveryAddress.city}
-            </span>
+            <span className="text-gray-600">Durée</span>
+            <span className="font-medium">{formatDuration(booking.duration)}</span>
           </div>
           
           <div className="flex justify-between pb-3 border-b border-gray-100">
-            <span className="text-gray-600">Date et créneau</span>
-            <span className="font-medium">{formatDate(booking.date)} • {booking.timeSlot}</span>
+            <span className="text-gray-600">Distance</span>
+            <span className="font-medium">{booking.distance.toFixed(1)} km</span>
           </div>
           
           <div className="flex justify-between pb-3 border-b border-gray-100">
             <span className="text-gray-600">Manutentionnaires</span>
             <span className="font-medium">{booking.handlers}</span>
+          </div>
+          
+          <div className="flex justify-between pb-3 border-b border-gray-100">
+            <span className="text-gray-600">Adresse de départ</span>
+            <span className="font-medium text-right">{booking.pickupAddress.formatted_address}</span>
+          </div>
+          
+          <div className="flex justify-between pb-3 border-b border-gray-100">
+            <span className="text-gray-600">Adresse d'arrivée</span>
+            <span className="font-medium text-right">{booking.deliveryAddress.formatted_address}</span>
           </div>
         </div>
       </div>
@@ -726,20 +710,30 @@ function SummaryStep({ booking, vehicles }) {
         
         <div className="p-6 space-y-4">
           <div className="flex justify-between pb-3 border-b border-gray-100">
-            <span className="text-gray-600">Prix de base ({vehicle?.name})</span>
-            <span>{basePrice}€</span>
+            <span className="text-gray-600">Prix de base ({booking.vehicle?.name})</span>
+            <span>{booking.vehicle?.basePrice.toFixed(2)}€</span>
+          </div>
+          
+          <div className="flex justify-between pb-3 border-b border-gray-100">
+            <span className="text-gray-600">Distance ({booking.distance.toFixed(1)} km × 0,25€)</span>
+            <span>{booking.distancePrice.toFixed(2)}€</span>
+          </div>
+          
+          <div className="flex justify-between pb-3 border-b border-gray-100">
+            <span className="text-gray-600">Durée ({formatDuration(booking.duration)})</span>
+            <span>{booking.durationPrice > 0 ? `${booking.durationPrice.toFixed(2)}€` : 'Gratuit'}</span>
           </div>
           
           {booking.handlers > 0 && (
             <div className="flex justify-between pb-3 border-b border-gray-100">
-              <span className="text-gray-600">Manutentionnaires ({booking.handlers} x 25€)</span>
-              <span>{handlerPrice}€</span>
+              <span className="text-gray-600">Manutentionnaires ({booking.handlers} × 25€)</span>
+              <span>{(booking.handlers * 25).toFixed(2)}€</span>
             </div>
           )}
           
           <div className="flex justify-between pt-2 text-lg font-semibold">
             <span>Total</span>
-            <span>{totalPrice}€</span>
+            <span>{booking.totalPrice.toFixed(2)}€</span>
           </div>
           
           <div className="mt-4 pt-4 border-t border-gray-100 text-sm text-gray-500">
