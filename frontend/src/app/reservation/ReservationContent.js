@@ -1,4 +1,3 @@
-// frontend/src/app/reservation/ReservationContent.js
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -649,9 +648,7 @@ function SummaryStep({ booking, vehicles }) {
   // Calcul du prix total (simplifié)
   const basePrice = vehicle?.basePrice || 0;
   const handlerPrice = 25 * booking.handlers;
-  const estimatedDistance = 10; // km
-  const distancePrice = estimatedDistance * (vehicle?.pricePerKm || 0);
-  const totalPrice = booking.totalPrice || (basePrice + handlerPrice + distancePrice);
+  const totalPrice = booking.totalPrice || (basePrice + handlerPrice);
   
   // Formatage de la date pour affichage
   const formatDate = (dateStr) => {
@@ -723,4 +720,33 @@ function SummaryStep({ booking, vehicles }) {
       </div>
       
       <div className="border border-gray-200 rounded-xl overflow-hidden">
-        <div className="bg-gray
+        <div className="bg-gray-50 p-4 border-b border-gray-200">
+          <h3 className="font-medium">Détails du prix</h3>
+        </div>
+        
+        <div className="p-6 space-y-4">
+          <div className="flex justify-between pb-3 border-b border-gray-100">
+            <span className="text-gray-600">Prix de base ({vehicle?.name})</span>
+            <span>{basePrice}€</span>
+          </div>
+          
+          {booking.handlers > 0 && (
+            <div className="flex justify-between pb-3 border-b border-gray-100">
+              <span className="text-gray-600">Manutentionnaires ({booking.handlers} x 25€)</span>
+              <span>{handlerPrice}€</span>
+            </div>
+          )}
+          
+          <div className="flex justify-between pt-2 text-lg font-semibold">
+            <span>Total</span>
+            <span>{totalPrice}€</span>
+          </div>
+          
+          <div className="mt-4 pt-4 border-t border-gray-100 text-sm text-gray-500">
+            <p>En confirmant votre réservation, vous serez redirigé vers notre page de paiement sécurisé.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
