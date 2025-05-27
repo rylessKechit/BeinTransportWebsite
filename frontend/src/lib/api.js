@@ -187,15 +187,42 @@ export const paymentService = {
       const response = await api.post(`/payments/create-intent/${bookingId}`);
       return response.data;
     } catch (error) {
+      console.error('Erreur lors de la création de l\'intent de paiement:', error);
       throw error;
     }
   },
   
   confirmPayment: async (bookingId, paymentIntentId) => {
     try {
-      const response = await api.post(`/payments/confirm/${bookingId}`, { paymentIntentId });
+      const response = await api.post(`/payments/confirm/${bookingId}`, { 
+        paymentIntentId 
+      });
       return response.data;
     } catch (error) {
+      console.error('Erreur lors de la confirmation du paiement:', error);
+      throw error;
+    }
+  },
+
+  // Méthode pour gérer les webhooks (côté client pour les notifications)
+  handlePaymentSuccess: async (paymentIntentId) => {
+    try {
+      // Cette méthode peut être utilisée pour des actions post-paiement côté client
+      console.log('Paiement réussi:', paymentIntentId);
+      return true;
+    } catch (error) {
+      console.error('Erreur lors du traitement du succès de paiement:', error);
+      return false;
+    }
+  },
+
+  // Récupérer l'historique des paiements pour un utilisateur
+  getPaymentHistory: async () => {
+    try {
+      const response = await api.get('/payments/history');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération de l\'historique des paiements:', error);
       throw error;
     }
   }

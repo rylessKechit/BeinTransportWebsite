@@ -243,16 +243,19 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Carte Google Maps */}
+          {/* Section carte */}
           <div className="mt-12">
             <h2 className="text-2xl font-semibold mb-6 flex items-center">
               <MapPin className="h-6 w-6 mr-2 text-purple-600" />
               Nous trouver
             </h2>
             <div className="bg-white rounded-xl shadow-md overflow-hidden h-96">
-              {/* Intégrez ici une carte Google Maps ou OpenStreetMap */}
               <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                <p className="text-gray-500">Carte non disponible - Intégrez ici une carte Google Maps</p>
+                <div className="text-center">
+                  <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-500">Carte interactive disponible prochainement</p>
+                  <p className="text-sm text-gray-400 mt-2">123 Rue du Transport, 75000 Paris</p>
+                </div>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight, ExternalLink } from 'lucide-react';
 
 // Carte de base
@@ -91,10 +92,12 @@ export function ServiceCard({ title, description, icon, imageUrl, actionText = '
     <Card className={`h-full flex flex-col ${className}`} {...props}>
       {imageUrl && (
         <div className="h-48 relative">
-          <img 
+          <Image 
             src={imageUrl} 
             alt={title} 
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
       )}
@@ -261,12 +264,14 @@ export function ContactCard({ name, role, imageUrl, email, phone, className = ''
   return (
     <Card className={`h-full ${className}`} {...props}>
       <CardBody className="text-center">
-        <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4">
+        <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 relative">
           {imageUrl ? (
-            <img 
+            <Image 
               src={imageUrl} 
               alt={name} 
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="96px"
             />
           ) : (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400 text-2xl font-medium">
@@ -323,11 +328,15 @@ export function TestimonialCard({ quote, author, position, avatarUrl, className 
         
         <div className="flex items-center mt-auto">
           {avatarUrl ? (
-            <img 
-              src={avatarUrl} 
-              alt={author} 
-              className="w-10 h-10 rounded-full mr-3 object-cover"
-            />
+            <div className="w-10 h-10 rounded-full mr-3 relative overflow-hidden">
+              <Image 
+                src={avatarUrl} 
+                alt={author} 
+                fill
+                className="object-cover"
+                sizes="40px"
+              />
+            </div>
           ) : (
             <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 mr-3">
               {author?.charAt(0)}

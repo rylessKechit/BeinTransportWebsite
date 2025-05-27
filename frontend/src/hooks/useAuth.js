@@ -12,7 +12,34 @@ export default function useAuth() {
   const [error, setError] = useState(null);
   const router = useRouter();
 
-  // Vérifier si l'utilisateur est connecté - CORRECTION: utilisation de useCallback
+  // Déconnexion utilisateur - défini avant pour éviter les problèmes de dépendances
+  const logout = useCallback(async () => {
+    try {
+      // Appel à l'API pour invalider le token côté serveur
+      try {
+        await authService.logout();
+      } catch (err) {
+        // Si l'API échoue, on continue quand même la déconnexion côté client
+        console.error('Erreur lors de la déconnexion:', err);
+      }
+      
+      // Supprimer le token côté client
+      Cookies.remove('token');
+      
+      // Supprimer le header d'autorisation
+      delete axios.defaults.headers.common['Authorization'];
+      
+      // Réinitialiser l'état utilisateur
+      setUser(null);
+      
+      // Rediriger vers la page d'accueil
+      router.push('/');
+    } catch (err) {
+      console.error('Erreur lors de la déconnexion:', err);
+    }
+  }, [router]);
+
+  // Vérifier si l'utilisateur est connecté
   const checkAuth = useCallback(async () => {
     try {
       setLoading(true);
@@ -40,9 +67,9 @@ export default function useAuth() {
     } finally {
       setLoading(false);
     }
-  }, []); // Pas de dépendances car logout est défini plus bas
+  }, [logout]);
 
-  // Vérifier l'état d'authentification au chargement - CORRECTION: ajout de checkAuth dans les dépendances
+  // Vérifier l'état d'authentification au chargement
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -107,33 +134,6 @@ export default function useAuth() {
       return false;
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Déconnexion utilisateur
-  const logout = async () => {
-    try {
-      // Appel à l'API pour invalider le token côté serveur
-      try {
-        await authService.logout();
-      } catch (err) {
-        // Si l'API échoue, on continue quand même la déconnexion côté client
-        console.error('Erreur lors de la déconnexion:', err);
-      }
-      
-      // Supprimer le token côté client
-      Cookies.remove('token');
-      
-      // Supprimer le header d'autorisation
-      delete axios.defaults.headers.common['Authorization'];
-      
-      // Réinitialiser l'état utilisateur
-      setUser(null);
-      
-      // Rediriger vers la page d'accueil
-      router.push('/');
-    } catch (err) {
-      console.error('Erreur lors de la déconnexion:', err);
     }
   };
 
